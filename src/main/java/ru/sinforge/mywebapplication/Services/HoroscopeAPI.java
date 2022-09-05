@@ -36,8 +36,8 @@ public class HoroscopeAPI {
                 url, HttpMethod.POST, requestEntity, HoroscopeModel.class, new ParameterizedTypeReference<HoroscopeModel>() {});
     }
 
-    public  String GetInfoFromAPI() {
-        return response.getBody().toString();
+    public  HoroscopeModel GetInfoFromAPI() {
+        return response.getBody();
     }
 
 }
