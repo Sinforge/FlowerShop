@@ -22,9 +22,9 @@ import java.io.IOException;
 
 public class HoroscopeAPI {
     private ResponseEntity<HoroscopeModel> response;
-    public HoroscopeAPI() {
+    public HoroscopeAPI(String SignFromQuery, String DayFromQuery) {
         RestTemplate restTemplate = new RestTemplate();
-        String url = "https://sameer-kumar-aztro-v1.p.rapidapi.com/?sign=aquarius&day=today";
+        String url = "https://sameer-kumar-aztro-v1.p.rapidapi.com/?sign=" + SignFromQuery +"&day=" + DayFromQuery;
         HttpHeaders headers = new HttpHeaders();
         headers.set("X-RapidAPI-Key", "8f09d41d52msh4c295a4f3a130fdp12e19bjsn31fa4a41e2c0");
         headers.set("X-RapidAPI-Host", "sameer-kumar-aztro-v1.p.rapidapi.com");

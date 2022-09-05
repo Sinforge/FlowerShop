@@ -9,8 +9,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import ru.sinforge.mywebapplication.Models.HoroscopeModel;
 import ru.sinforge.mywebapplication.Services.HoroscopeAPI;
@@ -20,13 +19,21 @@ import ru.sinforge.mywebapplication.Services.HoroscopeAPI;
 @Controller
 public class HomeController {
 
-    @GetMapping(value = "/")
-    public String home (Model model) {
+    @GetMapping(value = {"/", "/home"})
+    public String HomePage(Model model) {
+
+        return "home";
+    }
+
+    @PostMapping(value = "/GetYourHoroscope")
+    public String GetApiInfo(Model model, @RequestParam(value = "sign") String sign, @RequestParam(value = "day") String day)
+    {
         //Build request to Horoscope API
-        HoroscopeAPI horoscopeAPI = new HoroscopeAPI();
+        HoroscopeAPI horoscopeAPI = new HoroscopeAPI(sign, day);
 
         //Add to model data from api response
         model.addAttribute("ApiResponse", horoscopeAPI.GetInfoFromAPI());
-        return "home";
+
+        return "result";
     }
 }

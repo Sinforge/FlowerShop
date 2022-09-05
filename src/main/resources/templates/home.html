@@ -7,6 +7,30 @@
 <body>
     <h1>Hello it's Horoscope Web Application</h1>
     <h2>So far it looks bad, but will soon change)</h2>
-    <h3 th:text="${ApiResponse}"></h3>
+    <form method="post" action="/GetYourHoroscope">
+        <p><select name="sign">
+            <option disabled>Choose your sign</option>
+            <option value="Aries">Aries</option>
+            <option value="Taurus">Taurus</option>
+            <option value="Gemini">Gemini</option>
+            <option value="Cancer">Cancer</option>
+            <option value="Leo">Leo</option>
+            <option value="Virgo">Virgo</option>
+            <option value="Libra">Libra</option>
+            <option value="Scorpio">Scorpio</option>
+            <option value="Sagittarius">Sagittarius</option>
+            <option value="Capricorn">Capricorn</option>
+            <option value="Aquarius">Aquarius</option>
+            <option value="Pisces">Pisces</option>
+        </select></p>
+        <p>
+            <select name="day">
+                <option value="today">Today</option>
+                <option value="tomorrow">Tomorrow</option>
+                <option value="yesterday">Yesterday</option>
+            </select>
+        </p>
+        <p><input type="submit" value="Отправить"></p>
+    </form>
 </body>
 </html>
