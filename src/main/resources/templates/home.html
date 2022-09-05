@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -7,6 +7,6 @@
 <body>
     <h1>Hello it's Horoscope Web Application</h1>
     <h2>So far it looks bad, but will soon change)</h2>
-
+    <h3 th:text="${ApiResponse}"></h3>
 </body>
 </html>
