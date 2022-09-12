@@ -3,18 +3,21 @@ package ru.sinforge.mywebapplication.Entities;
 
 
 public class Flower {
-    private String document_id;
     private String name;
     private String description;
-    private String ImgPath;
+    private Integer price;
+    private String imgpath;
 
-    public String getDocument_id() {
-        return document_id;
+
+    @Override
+    public String toString() {
+        return "Flower{" +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", ImgPath='" + imgpath + '\'' +
+                '}';
     }
 
-    public void setDocument_id(String document_id) {
-        this.document_id = document_id;
-    }
 
     public String getName() {
         return name;
@@ -32,11 +35,19 @@ public class Flower {
         this.description = description;
     }
 
-    public String getImgPath() {
-        return ImgPath;
+    public String getImgpath() {
+        return imgpath;
     }
 
-    public void setImgPath(String imgPath) {
-        ImgPath = imgPath;
+    public void setImgpath(String imgpath) {
+        this.imgpath = imgpath;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 }

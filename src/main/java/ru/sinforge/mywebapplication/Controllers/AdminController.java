@@ -1,13 +1,15 @@
 package ru.sinforge.mywebapplication.Controllers;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.sinforge.mywebapplication.Entities.Flower;
 import ru.sinforge.mywebapplication.Services.FlowerService;
 
 import java.util.concurrent.ExecutionException;
 
-@RestController
+@Controller
 public class AdminController {
     private FlowerService flowerService;
 
@@ -15,9 +17,14 @@ public class AdminController {
         this.flowerService = flowerService;
     }
 
+    @GetMapping("/create")
+    public String createFlower() {
+        return "create_flower";
+    }
     @PostMapping("/create")
-    public String createFlower(@RequestBody Flower flower) throws ExecutionException, InterruptedException {
-        return flowerService.createFlower(flower);
+    public String createFlower(Flower flower) throws ExecutionException, InterruptedException {
+        flowerService.createFlower(flower);
+        return "get_all_flowers";
     }
 
     @GetMapping("/get")
@@ -34,6 +41,13 @@ public class AdminController {
     @PutMapping("/delete")
     public String deleteFlower(@RequestBody String flower_id) {
         return flowerService.deleteFlower(flower_id);
+    }
+
+    @GetMapping("/get-all")
+    public String getAllFlowers(Model model) {
+        Iterable<Flower> flowers = flowerService.getAllFlowers();
+        model.addAttribute("FlowerList", flowers);
+        return "get_all_flowers";
     }
 
     @GetMapping("/test")

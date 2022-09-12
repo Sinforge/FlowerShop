@@ -1,15 +1,14 @@
 package ru.sinforge.mywebapplication.Services;
 
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
+import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.protobuf.Api;
 import org.springframework.stereotype.Service;
 import ru.sinforge.mywebapplication.Entities.Flower;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -39,6 +38,25 @@ public class FlowerService {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> writeResult = dbFirestore.collection("Flower").document(flower_id).delete();
         return "Flower" + flower_id + " was successfully deleted";
+
+    }
+
+    public Iterable<Flower> getAllFlowers() {
+        List<Flower> flowers = new ArrayList<Flower>();
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> apiFuture = dbFirestore.collection("Flower").get();
+        List<QueryDocumentSnapshot> documents = null;
+        try {
+            documents = apiFuture.get().getDocuments();
+            for(QueryDocumentSnapshot document : documents) {
+                flowers.add(document.toObject(Flower.class));
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return flowers;
 
     }
 }
