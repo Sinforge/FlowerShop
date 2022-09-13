@@ -15,9 +15,11 @@
         <tr th:each="flower : ${FlowerList}">
             <td th:text="${flower.name}"></td>
             <td th:text="${flower.description}"></td>
-            <td th:text="${flower.price}"></td>
+            <td th:text="${flower.price}"> </td>
+            <!--<td><img th:src="/uploads/${flower.getImgName()}"></td> не работает я хз поч!-->
         </tr>
     </table>
+
 
 
 </body>

@@ -3,10 +3,11 @@ package ru.sinforge.mywebapplication.Entities;
 
 
 public class Flower {
+    private String id;
     private String name;
     private String description;
     private Integer price;
-    private String imgpath;
+    private String imgname;
 
 
     @Override
@@ -14,7 +15,7 @@ public class Flower {
         return "Flower{" +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", ImgPath='" + imgpath + '\'' +
+                ", ImgPath='" + imgname + '\'' +
                 '}';
     }
 
@@ -35,12 +36,12 @@ public class Flower {
         this.description = description;
     }
 
-    public String getImgpath() {
-        return imgpath;
+    public String getImgName() {
+        return imgname;
     }
 
-    public void setImgpath(String imgpath) {
-        this.imgpath = imgpath;
+    public void setImgName(String imgname) {
+        this.imgname = imgname;
     }
 
     public Integer getPrice() {
@@ -49,5 +50,13 @@ public class Flower {
 
     public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

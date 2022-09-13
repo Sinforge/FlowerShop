@@ -4,23 +4,63 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.protobuf.Api;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import ru.sinforge.mywebapplication.Entities.Flower;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 @Service
 public class FlowerService {
-    public String createFlower(Flower flower) throws ExecutionException, InterruptedException {
+    @Value("${upload.path}")
+    private String uploadPath;
+
+    public Boolean createFlower(Flower flower, MultipartFile img) throws ExecutionException, InterruptedException {
+        flower.setId(UUID.randomUUID().toString());
+        if(!img.isEmpty()) {
+            try {
+                File uploadDir = new File(uploadPath);
+                if(!uploadDir.exists()) {
+                    uploadDir.mkdir();
+                }
+                String ImgName = flower.getId() + "." + img.getOriginalFilename();
+                img.transferTo(new File(uploadPath + "/"+ ImgName));
+                flower.setImgName(ImgName);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> collectionApiFuture = dbFirestore.collection("Flower").document(flower.getName()).set(flower);
-        return collectionApiFuture.get().getUpdateTime().toString();
+        Iterable<Flower> flowers =  getAllFlowers();
+        for (Flower fl: flowers) {
+            if(fl.getName().equalsIgnoreCase(flower.getName())) {
+                return false;
+            }
+        }
+        ApiFuture<WriteResult> collectionApiFuture = dbFirestore.collection("Flower").document(flower.getId()).set(flower);
+        return true;
     }
 
-    public String updateFlower(Flower flower) {
-        return "";
+    public Boolean updateFlower(Flower flower) {
+        HashMap<String, Object> update = new HashMap<>();
+        update.put("id", flower.getId());
+        update.put("name", flower.getName());
+        update.put("description", flower.getDescription());
+        update.put("price", flower.getPrice());
+        update.put("imgname", flower.getImgName());
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<WriteResult> writeResultApiFuture =
+                dbFirestore.collection("Flower").document(flower.getId()).set(update, SetOptions.merge());
+        return writeResultApiFuture.isDone();
+
     }
     public Flower getFlower(String flower_id) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
