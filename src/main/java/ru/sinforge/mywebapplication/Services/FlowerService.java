@@ -4,6 +4,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.protobuf.Api;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -86,6 +87,7 @@ public class FlowerService {
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<QuerySnapshot> apiFuture = dbFirestore.collection("Flower").get();
         List<QueryDocumentSnapshot> documents = null;
+
         try {
             documents = apiFuture.get().getDocuments();
             for(QueryDocumentSnapshot document : documents) {

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html >
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
@@ -6,13 +6,12 @@
     <title>Title</title>
 </head>
 <body>
-    <p>Create the flower</p>
-    <form method="post" enctype="multipart/form-data">
-        <p>Name:<input type="text" name="name"></p>
-        <p>Description<input type="text" name="description"></p>
-        <p>Price <input type="number" name="price"></p>
-        <p>Img <input type="file" name="img"></p>
+    <p>Registration</p>
+    <form method="post" >
+        <p>Name:<input type="text" name="username"></p>
+        <p>Password: <input type="text" name="password"></p>
         <p><input type="submit" value="Отправить"></p>
     </form>
+
 </body>
 </html>
