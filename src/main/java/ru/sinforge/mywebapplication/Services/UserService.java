@@ -24,6 +24,7 @@ public class UserService implements UserDetailsService {
         User user = new User();
         user.setUsername(username);
         user.setPassword(password);
+
         User userFromDB = userRepo.findByUsername(user.getUsername());
         if(userFromDB != null) {
             return false;

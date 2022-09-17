@@ -2,15 +2,11 @@ package ru.sinforge.mywebapplication.Controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import ru.sinforge.mywebapplication.Entities.User;
 import ru.sinforge.mywebapplication.Services.UserService;
+import ru.sinforge.mywebapplication.ViewModels.UserViewModel;
 
 @Controller
 public class AccountController {
@@ -28,18 +24,22 @@ public class AccountController {
         return "registration";
     }
 
-    @PutMapping("/aboba")
-    public String Aboba() {
-        return "aboba";
-    }
-
     @PostMapping("/registration")
-    public String AddUser(User user) {
+    public String Registration(UserViewModel user) {
         if(!userService.AddUser(user.getUsername(), user.getPassword())) {
             logger.info("User enter existing nickname on registration");
             return "registration";
         }
         logger.info("New user successful added");
-        return "registration";
+        return "auth";
     }
+
+
+
+    @GetMapping(value = "/auth")
+    public String Authorization() {
+        return "auth";
+    }
+
+
 }
