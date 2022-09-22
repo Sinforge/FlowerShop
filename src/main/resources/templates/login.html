@@ -1,7 +1,6 @@
-<!DOCTYPE html >
+<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/static/css/style.css">
@@ -24,12 +23,22 @@
         </ul>
     </nav>
 </header>
-    <p>Registration</p>
-    <form method="post" >
-        <p>Name:<input type="text" name="username"></p>
-        <p>Password: <input type="text" name="password"></p>
-        <p><input type="submit" value="Отправить"></p>
-    </form>
 
+    <h1 align="center">Авторизация</h1>
+
+
+    <form th:action="@{/login}" method="post" align="left">
+
+        <div class="text-field">
+            <label  for="username">Имя пользователя:</label>
+            <input  type="text" name="username" placeholder="username" required>
+        </div>
+        <div class="text-field">
+            <label for="password">Пароль:</label>
+            <input type="password" name="password" placeholder="password" required>
+        </div>
+        <div><input type="submit" value="Войти" /></div>
+
+    </form>
 </body>
 </html>

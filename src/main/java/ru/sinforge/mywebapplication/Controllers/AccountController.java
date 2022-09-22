@@ -31,14 +31,7 @@ public class AccountController {
             return "registration";
         }
         logger.info("New user successful added");
-        return "auth";
-    }
-
-
-
-    @GetMapping(value = "/auth")
-    public String Authorization() {
-        return "auth";
+        return "login";
     }
 
 
