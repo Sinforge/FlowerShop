@@ -64,8 +64,7 @@ public class AdminController {
     }
 
 
-    @GetMapping("/get")
-    public String getFlower(@RequestParam String flower_id) throws ExecutionException, InterruptedException {
+    public String getFlower(String flower_id) throws ExecutionException, InterruptedException {
         return flowerService.getFlower(flower_id).toString();
     }
 
@@ -93,6 +92,11 @@ public class AdminController {
     }
 
 
+
+    //@GetMapping("/basket")
+  //  public String ShoppingBasket(@AuthenticationPrincipal User user, Model model) {
+
+//    }
 
     public void IsAuth(User user, Model model) {
         if(user == null) {

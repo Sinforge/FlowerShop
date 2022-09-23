@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+        <div class="list-flowers-item-img">
+            <img th:src="@{'/static/uploads/' + ${flower.getImgName()}}" width="100" height="100">
+        </div>
+        <div class="list-flowers-item-info">
+            <label for="name">Flower Name: </label>
+            <a th:text="${flower.name}" name="name" th:href=""></a>
+            <label for="desc">Description</label>
+            <p th:text="${flower.description}" name="desc"></p>
+            <label for="price">Price</label>
+            <p th:text="${flower.price}" name="price"> </p>
+        </div>
+        <br><br><br>
+
+</body>
+</html>

@@ -32,7 +32,7 @@
                     </div>
                     <div class="list-flowers-item-info">
                         <label for="name">Flower Name: </label>
-                        <p th:text="${flower.name}" name="name"></p>
+                        <a th:text="${flower.name}" name="name" th:href="@{/flower/(id=${flower.id})}"></a>
                         <label for="desc">Description</label>
                         <p th:text="${flower.description}" name="desc"></p>
                         <label for="price">Price</label>
