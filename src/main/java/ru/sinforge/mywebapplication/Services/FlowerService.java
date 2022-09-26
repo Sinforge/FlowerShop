@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import ru.sinforge.mywebapplication.Entities.Flower;
+import ru.sinforge.mywebapplication.Entities.FlowerBouquet;
+import ru.sinforge.mywebapplication.Entities.User;
+import ru.sinforge.mywebapplication.Repositories.BasketRepo;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +26,9 @@ import java.util.concurrent.ExecutionException;
 public class FlowerService {
     @Value("${upload.path}")
     private String uploadPath;
+    private BasketRepo basketRepo;
+
+
 
     public Boolean createFlower(Flower flower, MultipartFile img) throws ExecutionException, InterruptedException {
         flower.setId(UUID.randomUUID().toString());

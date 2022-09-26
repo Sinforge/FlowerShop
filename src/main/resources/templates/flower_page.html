@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -10,12 +12,16 @@
         </div>
         <div class="list-flowers-item-info">
             <label for="name">Flower Name: </label>
-            <a th:text="${flower.name}" name="name" th:href=""></a>
+            <p th:text="${flower.name}" name="name"></p>
             <label for="desc">Description</label>
             <p th:text="${flower.description}" name="desc"></p>
             <label for="price">Price</label>
             <p th:text="${flower.price}" name="price"> </p>
         </div>
+        <form method="post" action="/AddToBasket">
+            <input type="text" hidden th:value="${flower.id}">
+            <input type="submit" value="Добавить в корзину">
+        </form>
         <br><br><br>
 
 </body>

@@ -4,8 +4,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import ru.sinforge.mywebapplication.Entities.FlowerBouquet;
 import ru.sinforge.mywebapplication.Entities.Role;
 import ru.sinforge.mywebapplication.Entities.User;
+import ru.sinforge.mywebapplication.Repositories.BasketRepo;
 import ru.sinforge.mywebapplication.Repositories.UserRepo;
 
 import java.util.Collections;
@@ -13,12 +15,27 @@ import java.util.Collections;
 public class UserService implements UserDetailsService {
     private FlowerService flowerService;
     private UserRepo userRepo;
+    private BasketRepo basketRepo;
 
-    public UserService(FlowerService flowerService, UserRepo userRepo) {
+    public UserService(FlowerService flowerService, UserRepo userRepo, BasketRepo basketRepo) {
         this.flowerService = flowerService;
         this.userRepo = userRepo;
+        this.basketRepo = basketRepo;
 
     }
+
+
+    public Iterable<FlowerBouquet> GetUserFlowerBasket(User user) {
+        return basketRepo.findByUserId(user.getId());
+    }
+
+    public void AddBouquet(User user, String FlowerId) {
+        FlowerBouquet flowerBouquet = new FlowerBouquet();
+        flowerBouquet.setFlowerId(FlowerId);
+        flowerBouquet.setUser(user);
+        basketRepo.save(flowerBouquet);
+    }
+
 
     public boolean AddUser(String username, String password) {
         User user = new User();
