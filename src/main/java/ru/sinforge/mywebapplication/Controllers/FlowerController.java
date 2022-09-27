@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.sinforge.mywebapplication.Entities.Flower;
 import ru.sinforge.mywebapplication.Entities.FlowerBouquet;
@@ -34,7 +35,7 @@ public class FlowerController {
         return "flower_page";
     }
 
-    @GetMapping("/AddToBasket")
+    @PostMapping("/AddToBasket")
     public String AddToBasket(@AuthenticationPrincipal User user, String FlowerId) {
         userService.AddBouquet(user, FlowerId);
         return "get_all_flowers";

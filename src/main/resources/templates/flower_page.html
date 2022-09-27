@@ -19,7 +19,7 @@
             <p th:text="${flower.price}" name="price"> </p>
         </div>
         <form method="post" action="/AddToBasket">
-            <input type="text" hidden th:value="${flower.id}">
+            <input type="text" name="FlowerId" hidden th:value="${flower.getId()}">
             <input type="submit" value="Добавить в корзину">
         </form>
         <br><br><br>
