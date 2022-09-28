@@ -18,10 +18,17 @@
             <label for="price">Price</label>
             <p th:text="${flower.price}" name="price"> </p>
         </div>
-        <form method="post" action="/AddToBasket">
-            <input type="text" name="FlowerId" hidden th:value="${flower.getId()}">
-            <input type="submit" value="Добавить в корзину">
-        </form>
+        <div th:switch="${userIsAuth}">
+            <div th:case="true" th:switch="${FlowerInBasket}">
+                <div th:case="false">
+                    <form method="post" action="/AddToBasket">
+                        <input type="text" name="FlowerId" hidden th:value="${flower.getId()}">
+                        <input type="submit" value="Добавить в корзину">
+                    </form>
+                </div>
+
+            </div>
+        </div>
         <br><br><br>
 
 </body>

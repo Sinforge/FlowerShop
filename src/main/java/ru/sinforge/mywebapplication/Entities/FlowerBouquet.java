@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Objects;
+import java.util.concurrent.Flow;
 
 @Entity
 public class FlowerBouquet {
@@ -36,5 +38,20 @@ public class FlowerBouquet {
 
     public void setFlowerAmount(int flowerAmount) {
         this.flowerAmount = flowerAmount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        boolean Result = false;
+        if (o instanceof FlowerBouquet) {
+            FlowerBouquet AnotherFlower = (FlowerBouquet) o;
+            Result = AnotherFlower.flowerId.equals(this.flowerId);
+        }
+        return Result;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, flowerId, flowerAmount, user);
     }
 }

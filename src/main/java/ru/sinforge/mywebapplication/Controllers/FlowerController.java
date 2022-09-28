@@ -14,8 +14,11 @@ import ru.sinforge.mywebapplication.Services.FlowerService;
 import ru.sinforge.mywebapplication.Services.UserService;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.StreamSupport;
 
 @Controller
 public class FlowerController {
@@ -29,8 +32,14 @@ public class FlowerController {
     }
 
     @GetMapping("/flower")
-    public String FlowerPage(@RequestParam(value = "id", required = true) String id, Model model) throws ExecutionException, InterruptedException {
+    public String FlowerPage(@AuthenticationPrincipal User user, @RequestParam(value = "id", required = true) String id, Model model) throws ExecutionException, InterruptedException {
 
+        model.addAttribute("userIsAuth", user == null);
+        if(user != null) {
+            model.addAttribute("FlowerInBasket", StreamSupport.stream(
+                            userService.GetUserFlowerBasket(user).spliterator(), false)
+                    .anyMatch(Flower -> id.equals(Flower.getFlowerId())));
+        }
         model.addAttribute("flower", flowerService.getFlower(id));
         return "flower_page";
     }
@@ -38,7 +47,7 @@ public class FlowerController {
     @PostMapping("/AddToBasket")
     public String AddToBasket(@AuthenticationPrincipal User user, String FlowerId) {
         userService.AddBouquet(user, FlowerId);
-        return "get_all_flowers";
+        return "redirect:/";
 
     }
 
@@ -52,6 +61,7 @@ public class FlowerController {
              Bouquets) {
             flowerList.add(flowerService.getFlower(bouquet.getFlowerId()));
         }
+
         model.addAttribute("list_of_flowers", flowerList);
         return "user_basket";
     }
