@@ -14,6 +14,7 @@
             <li class="nav-bar-element"><a href="/create">Создать цветок</a></li>
             <li class="nav-bar-element"><a href="/login">Вход</a></li>
             <li class="nav-bar-element"><a href="/registration">Регистрация</a></li>
+            <li class="nav-bar-element"><a href="/basket"><img src='/static/img/shoppingbasket.png' width="30" height="30" ></a></li>
             <li >
                 <form th:action="@{/logout}" method="post">
                     <input type="hidden" name="_csrf" value=" {{_csrf.token}}">

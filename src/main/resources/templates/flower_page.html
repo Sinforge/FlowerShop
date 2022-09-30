@@ -4,9 +4,28 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/css/style.css">
     <title>Title</title>
 </head>
 <body>
+<header>
+    <nav>
+        <ul class="nav_bar">
+            <li class="nav-bar-element"><a href="/">Home</a></li>
+            <li class="nav-bar-element"><a href="/create">Создать цветок</a></li>
+            <li class="nav-bar-element"><a href="/login">Вход</a></li>
+            <li class="nav-bar-element"><a href="/registration">Регистрация</a></li>
+            <li class="nav-bar-element"><a href="/basket"><img src='/static/img/shoppingbasket.png' width="30" height="30" ></a></li>
+            <li >
+                <form th:action="@{/logout}" method="post">
+                    <input type="hidden" name="_csrf" value=" {{_csrf.token}}">
+                    <input type="submit" value="Sign Out" class="c-button submit service"/>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main>
         <div class="list-flowers-item-img">
             <img th:src="@{'/static/uploads/' + ${flower.getImgName()}}" width="100" height="100">
         </div>
@@ -18,8 +37,8 @@
             <label for="price">Price</label>
             <p th:text="${flower.price}" name="price"> </p>
         </div>
-        <div th:switch="${userIsAuth}">
-            <div th:case="true" th:switch="${FlowerInBasket}">
+        <div sec:authorize="isAuthenticated()">
+            <div th:switch="${FlowerInBasket}">
                 <div th:case="false">
                     <form method="post" action="/AddToBasket">
                         <input type="text" name="FlowerId" hidden th:value="${flower.getId()}">
@@ -48,7 +67,7 @@
 
 
         <h4>Leave Comment</h4>
-        <div >
+        <div sec:authorize="isAuthenticated()">
             <form action="/LeaveComment" method="post">
                 <input hidden name="FlowerId" th:value="${flower.getId()}" >
                 <textarea name="Text" cols="15" rows="15"></textarea>
@@ -68,6 +87,6 @@
 
 
         <br><br><br>
-
+</main>
 </body>
 </html>

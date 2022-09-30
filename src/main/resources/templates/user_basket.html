@@ -3,9 +3,29 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/css/style.css">
     <title>Title</title>
 </head>
 <body>
+<header>
+    <nav>
+        <ul class="nav_bar">
+            <li class="nav-bar-element"><a href="/">Home</a></li>
+            <li class="nav-bar-element"><a href="/create">Создать цветок</a></li>
+            <li class="nav-bar-element"><a href="/login">Вход</a></li>
+            <li class="nav-bar-element"><a href="/registration">Регистрация</a></li>
+            <li class="nav-bar-element"><a href="/basket"><img src='/static/img/shoppingbasket.png' width="30" height="30" ></a></li>
+            <li >
+                <form th:action="@{/logout}" method="post">
+                    <input type="hidden" name="_csrf" value=" {{_csrf.token}}">
+                    <input type="submit" value="Sign Out" class="c-button submit service"/>
+                </form>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main>
+    <h1>Shopping Basket</h1>
     <!--/*@thymesVar id="list_of_flowers" type="java.lang.Iterable<ru.sinforge.mywebapplication.Entities.Flower>"*/-->
     <div th:each="flower : ${list_of_flowers}">
         <div>
@@ -18,5 +38,6 @@
         </div>
         
     </div>
+</main>
 </body>
 </html>
