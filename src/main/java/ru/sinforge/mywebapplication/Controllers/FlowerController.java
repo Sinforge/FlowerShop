@@ -7,11 +7,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.sinforge.mywebapplication.Entities.Comment;
 import ru.sinforge.mywebapplication.Entities.Flower;
 import ru.sinforge.mywebapplication.Entities.FlowerBouquet;
 import ru.sinforge.mywebapplication.Entities.User;
+import ru.sinforge.mywebapplication.Services.CommentService;
 import ru.sinforge.mywebapplication.Services.FlowerService;
 import ru.sinforge.mywebapplication.Services.UserService;
+import ru.sinforge.mywebapplication.ViewModels.CommentViewModel;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,13 +25,14 @@ import java.util.stream.StreamSupport;
 
 @Controller
 public class FlowerController {
-    private FlowerService flowerService;
-    private UserService userService;
+    private  FlowerService flowerService;
+    private  UserService userService;
+    private  CommentService commentService;
 
-
-    FlowerController(FlowerService flowerService, UserService userService) {
+    FlowerController(FlowerService flowerService, UserService userService, CommentService commentService) {
         this.userService = userService;
         this.flowerService = flowerService;
+        this.commentService = commentService;
     }
 
     public String getFlower(String flower_id) throws ExecutionException, InterruptedException {
@@ -62,6 +66,7 @@ public class FlowerController {
                     .anyMatch(Flower -> id.equals(Flower.getFlowerId())));
         }
         model.addAttribute("flower", flowerService.getFlower(id));
+        model.addAttribute("comments", commentService.GetAllCommentsOnFlowerPage(id));
         return "flower_page";
     }
 
@@ -87,4 +92,9 @@ public class FlowerController {
         return "user_basket";
     }
 
+    @PostMapping("/LeaveComment")
+    public String LeaveComment(@AuthenticationPrincipal User user,  CommentViewModel comment) {
+        commentService.AddComment(comment, user.getUsername());
+        return "redirect:/";
+    }
 }

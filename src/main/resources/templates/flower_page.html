@@ -45,6 +45,28 @@
             </form>
 
         </div>
+
+
+        <h4>Leave Comment</h4>
+        <div >
+            <form action="/LeaveComment" method="post">
+                <input hidden name="FlowerId" th:value="${flower.getId()}" >
+                <textarea name="Text" cols="15" rows="15"></textarea>
+                <input type="submit" value="Leave">
+            </form>
+        </div>
+
+
+        <h4>All comments</h4>
+        <div th:each="comment : ${comments}">
+            <div>
+                <p th:text="${comment.getUsername}"></p><br>
+                <p th:text="${comment.getText}"></p>
+
+            </div>
+        </div>
+
+
         <br><br><br>
 
 </body>
