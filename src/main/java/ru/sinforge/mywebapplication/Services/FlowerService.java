@@ -62,7 +62,6 @@ public class FlowerService {
         update.put("name", flower.getName());
         update.put("description", flower.getDescription());
         update.put("price", flower.getPrice());
-        update.put("imgname", flower.getImgName());
         Firestore dbFirestore = FirestoreClient.getFirestore();
         ApiFuture<WriteResult> writeResultApiFuture =
                 dbFirestore.collection("Flower").document(flower.getId()).set(update, SetOptions.merge());

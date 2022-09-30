@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,35 +33,17 @@ public class AdminController {
     }
 
     @GetMapping("/create")
-    public String createFlower(@AuthenticationPrincipal User user, Model model) {
-        IsAuth(user, model);
-        if (user.getRoles().contains(Role.Administrator)) {
-            return "create_flower";
-        } else {
-            model.addAttribute("exception", "Access denied");
-            return "exception-page";
-        }
+    public String createFlower() {
+        return "create_flower";
     }
-
 
     @PostMapping("/create")
     public String createFlower(
             @AuthenticationPrincipal User user, Flower flower,
             @RequestParam("img") MultipartFile img, Model model) throws ExecutionException, InterruptedException {
         IsAuth(user, model);
-
-        if (user.getRoles().contains(Role.Administrator)) {
-            if (flowerService.createFlower(flower, img)) {
-                model.addAttribute("FlowerList", flowerService.getAllFlowers());
-                return "get_all_flowers";
-            }
-        } else {
-            model.addAttribute("exception", "Access denied");
-            return "exception-page";
-        }
-        model.addAttribute("exception", "Flower with this name exist ---> create" +
-                " flower this different name or update existing flower");
-        return "exception-page";
+        flowerService.createFlower(flower, img);
+        return "redirect:/";
     }
 
 
@@ -68,9 +51,8 @@ public class AdminController {
         return flowerService.getFlower(flower_id).toString();
     }
 
-
-    @PutMapping("/update")
-    public String updateFlower(@RequestBody Flower flower) {
+    @PostMapping("/update")
+    public String updateFlower(Flower flower) {
         if (flowerService.updateFlower(flower)) {
             return "get_all_flowers";
         }
@@ -78,18 +60,13 @@ public class AdminController {
         return "exception-page";
     }
 
-    @PutMapping("/delete")
+    @PostMapping("/delete")
     public String deleteFlower(@RequestBody String flower_id) {
-        return flowerService.deleteFlower(flower_id);
+        flowerService.deleteFlower(flower_id);
+        return "redirect:/";
     }
 
-    @GetMapping({"/", "/home"})
-    public String getAllFlowers(@AuthenticationPrincipal User user, Model model) {
-        IsAuth(user, model);
-        Iterable<Flower> flowers = flowerService.getAllFlowers();
-        model.addAttribute("FlowerList", flowers);
-        return "get_all_flowers";
-    }
+
 
 
 

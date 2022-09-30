@@ -31,6 +31,27 @@ public class FlowerController {
         this.flowerService = flowerService;
     }
 
+    public String getFlower(String flower_id) throws ExecutionException, InterruptedException {
+        return flowerService.getFlower(flower_id).toString();
+    }
+
+    public void IsAuth(User user, Model model) {
+        if(user == null) {
+            model.addAttribute("user", "NotAuth");
+            return;
+        }
+        model.addAttribute("user", "Auth");
+    }
+
+    @GetMapping({"/", "/home"})
+    public String getAllFlowers(@AuthenticationPrincipal User user, Model model) {
+        IsAuth(user, model);
+        Iterable<Flower> flowers = flowerService.getAllFlowers();
+        model.addAttribute("FlowerList", flowers);
+        return "get_all_flowers";
+    }
+
+
     @GetMapping("/flower")
     public String FlowerPage(@AuthenticationPrincipal User user, @RequestParam(value = "id", required = true) String id, Model model) throws ExecutionException, InterruptedException {
 
