@@ -77,6 +77,14 @@ public class FlowerController {
 
     }
 
+    @PostMapping("/search")
+    public String SearchFlower(String FlowerName, Model model) {
+        model.addAttribute("FlowerList", flowerService.getFlowerBySearch(FlowerName));
+        return "get_all_flowers";
+
+
+    }
+
 
     @GetMapping("/basket")
     public String UserBasket(@AuthenticationPrincipal User user, Model model) throws ExecutionException, InterruptedException {

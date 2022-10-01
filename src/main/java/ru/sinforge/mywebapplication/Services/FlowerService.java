@@ -106,4 +106,23 @@ public class FlowerService {
         return flowers;
 
     }
-}
+
+    public Iterable<Flower> getFlowerBySearch(String Pattern) {
+        List<Flower> flowers = new ArrayList<Flower>();
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> apiFuture = dbFirestore.collection("Flower").whereEqualTo("name", Pattern).get();
+        List<QueryDocumentSnapshot> documents = null;
+
+        try {
+            documents = apiFuture.get().getDocuments();
+            for(QueryDocumentSnapshot document : documents) {
+                flowers.add(document.toObject(Flower.class));
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return flowers;
+    }
+ }
