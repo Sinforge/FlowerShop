@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <form method="post">
+        <input hidden type="number" th:value="userId">
+        <ul>
+            <li>
+                <label for="roles[]">Administartor</label>
+                <input type="checkbox" name="roles[]" value="Administrator" th:checked="${userRoles[0]}">
+            </li>
+
+            <li>
+                <label for="roles[]" >DefaultUser</label>
+                <input type="checkbox" name="roles[]" value="DefaultUser" th:checked="${userRoles[1]}">
+            </li>
+            <li>
+                <label for="roles[]">Moderator</label>
+                <input type="checkbox" name="roles[]" value="Moderator" th:checked="${userRoles[2]}">
+            </li>
+        </ul>
+        <input type="submit" value="Изменить">
+    </form>
+</body>
+</html>

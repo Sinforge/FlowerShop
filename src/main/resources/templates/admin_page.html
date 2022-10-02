@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>
+        <div style="display: inline-block" th:each="user : ${UserList}">
+            <div style="border-style: dashed;">
+                <label for="userId">UserID: </label>
+                <p th:text="${user.getId()}" name="userId" ></p>
+                <label for="userName">UserName</label>
+                <p th:text="${user.getUsername()}" name="userName"></p>
+                <label for="roles">User Roles</label>
+                <div name="roles" th:each="role : ${user.getRoles()}">
+                    <p th:text="${role}"> </p>
+                </div>
+                <form method="post" action="/delete_user">
+                    <input hidden type="number" name="id" th:value="${user.getId()}">
+                    <input type="submit" value="Delete User">
+                </form>
+                <form method="get" action="/change_user_roles" >
+                    <input hidden type="number" name="id" th:value="${user.getId()}">
+                    <input type="submit" value="Change User Roles">
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

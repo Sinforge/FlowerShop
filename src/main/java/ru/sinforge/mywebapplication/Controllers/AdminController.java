@@ -20,15 +20,20 @@ import ru.sinforge.mywebapplication.Entities.Flower;
 import ru.sinforge.mywebapplication.Entities.Role;
 import ru.sinforge.mywebapplication.Entities.User;
 import ru.sinforge.mywebapplication.Services.FlowerService;
+import ru.sinforge.mywebapplication.Services.UserService;
 
+import java.util.ArrayList;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 @Controller
 public class AdminController {
     private FlowerService flowerService;
+    private UserService userService;
 
 
-    public AdminController(FlowerService flowerService) {
+    public AdminController(FlowerService flowerService, UserService userService) {
+        this.userService = userService;
         this.flowerService = flowerService;
     }
 
@@ -65,6 +70,48 @@ public class AdminController {
         flowerService.deleteFlower(flower_id);
         return "redirect:/";
     }
+
+
+
+    @GetMapping("/userlist")
+    public String getUserList(Model model) {
+            model.addAttribute("UserList", userService.GetUserList());
+            return "admin_page";
+    }
+
+    @PostMapping("/delete_user")
+    public String DeleteUser(Long id) {
+        userService.DeleteUserById(id);
+        return "redirect:/userlist";
+    }
+
+
+    @GetMapping("/change_user_roles")
+    public String ChangeUserRoles(Model model, Long id) {
+        User user = userService.GetUserById(id);
+        Set<Role> roles = user.getRoles();
+        Boolean[] HasRoles = new Boolean[3];
+        for (Role role: roles) {
+            HasRoles[0]= role == Role.Administrator;
+            HasRoles[1] = role == Role.DefaultUser;
+            HasRoles[2] = role == Role.Moderator;
+        }
+        model.addAttribute("userId", user.getId());
+        model.addAttribute("userRoles", HasRoles);
+
+
+
+        return "change_roles";
+    }
+
+    @PostMapping("/change_user_roles")
+    public String ChangeUserRoles(Long id, @RequestParam(value = "roles[]") String[] roles) {
+        userService.ChangeUserRoles(roles, id);
+        return "redirect:/userlist";
+    }
+
+
+
 
 
 

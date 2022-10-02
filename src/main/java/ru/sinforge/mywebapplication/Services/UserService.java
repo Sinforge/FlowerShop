@@ -10,7 +10,11 @@ import ru.sinforge.mywebapplication.Entities.User;
 import ru.sinforge.mywebapplication.Repositories.BasketRepo;
 import ru.sinforge.mywebapplication.Repositories.UserRepo;
 
+import javax.transaction.Transactional;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 @Service
 public class UserService implements UserDetailsService {
     private FlowerService flowerService;
@@ -24,6 +28,12 @@ public class UserService implements UserDetailsService {
 
     }
 
+    @Transactional
+    public void DeleteUserById(Long Id) {
+        User user = userRepo.findById(Id).get();
+        basketRepo.deleteAllByUser(user);
+        userRepo.delete(user)  ;
+    }
 
     public Iterable<FlowerBouquet> GetUserFlowerBasket(User user) {
         return basketRepo.findByUserId(user.getId());
@@ -34,6 +44,34 @@ public class UserService implements UserDetailsService {
         flowerBouquet.setFlowerId(FlowerId);
         flowerBouquet.setUser(user);
         basketRepo.save(flowerBouquet);
+    }
+
+    public User GetUserById(Long id) {
+        return userRepo.findById(id).get();
+    }
+
+    public void ChangeUserRoles(String[] roles, Long UserId) {
+        Set<Role> NewSet = new HashSet<>();
+        for (String role: roles) {
+            if(role.equals("Administrator")) {
+                NewSet.add(Role.Administrator);
+            }
+            else if(role.equals("DefaultUser")) {
+                NewSet.add(Role.DefaultUser);
+            }
+            else {
+                NewSet.add(Role.Moderator);
+            }
+
+        }
+
+        User user = userRepo.findById(UserId).get();
+        user.setRoles(NewSet);
+        userRepo.save(user);
+    }
+
+    public Iterable<User> GetUserList() {
+        return userRepo.findAll();
     }
 
 
