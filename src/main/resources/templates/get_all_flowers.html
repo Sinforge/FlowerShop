@@ -15,22 +15,28 @@
                     <li class="nav-bar-element"><a href="/login">Вход</a></li>
                     <li class="nav-bar-element"><a href="/registration">Регистрация</a></li>
                     <li class="nav-bar-element"><a href="/basket"><img src='/static/img/shoppingbasket.png' width="30" height="30" ></a></li>
-                    <li >
+                    <li class="nav-bar-element">
                         <form th:action="@{/logout}" method="post">
                             <input type="hidden" name="_csrf" value=" {{_csrf.token}}">
                             <input type="submit" value="Sign Out" class="c-button submit service"/>
                         </form>
                     </li>
-                    <li>
-                        <form method="post" action="/search">
-                            <input type="text" name="FlowerName">
-                            <input type="submit" value="Search">
-                        </form>
-                    </li>
+
                 </ul>
             </nav>
         </header>
-        <main>
+        <main class="flower-selection-block">
+            <div class="search_params">
+                <div>
+                    <form method="post" action="/search">
+                        <input type="text" name="FlowerName">
+                        <h2>Price range</h2>
+                        <input type="number" name="min"  value="-1" min="1">
+                        <input type="number" name="max" value="-1" max="100000">
+                        <input type="submit" value="Search">
+                    </form>
+                </div>
+            </div>
             <div class="list-flowers">
                 <!--/*@thymesVar id="FlowerList" type="java.lang.Iterable<ru.sinforge.mywebapplication.Entities.Flower>"*/-->
                 <div class="list-flowers-item"th:each="flower : ${FlowerList}">

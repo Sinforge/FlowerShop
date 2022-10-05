@@ -78,8 +78,18 @@ public class FlowerController {
     }
 
     @PostMapping("/search")
-    public String SearchFlower(String FlowerName, Model model) {
-        model.addAttribute("FlowerList", flowerService.getFlowerBySearch(FlowerName));
+    public String SearchFlower(String FlowerName, int min, int max, Model model) {
+        if(FlowerName != "" && min != -1 && max != -1 && min < max) {
+            Iterable<Flower> foundedByNameFlowers = flowerService.getFlowerBySearch(FlowerName);
+            model.addAttribute("FlowerList", flowerService.SortFlowerByPrice(min, max, foundedByNameFlowers));
+        }
+        else if(FlowerName == "" && min != -1 && max != -1 && min < max) {
+            model.addAttribute("FlowerList", flowerService.SortFlowerByPrice(min, max, flowerService.getAllFlowers()));
+        }
+        else if (FlowerName != "") {
+            model.addAttribute("FlowerList", flowerService.getFlowerBySearch(FlowerName));
+        }
+
         return "get_all_flowers";
 
 

@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Flow;
 
 @Service
 public class FlowerService {
@@ -124,5 +125,15 @@ public class FlowerService {
             e.printStackTrace();
         }
         return flowers;
+    }
+
+    public Iterable<Flower> SortFlowerByPrice(int min, int max, Iterable<Flower> flowers) {
+        ArrayList<Flower> sortedFlowers = new ArrayList<>();
+        for (Flower flower: flowers) {
+            if(flower.getPrice() <= max && flower.getPrice() >= min) {
+                sortedFlowers.add(flower);
+            }
+        }
+        return sortedFlowers;
     }
  }

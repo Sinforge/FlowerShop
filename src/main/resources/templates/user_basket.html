@@ -28,16 +28,13 @@
     <h1>Shopping Basket</h1>
     <!--/*@thymesVar id="list_of_flowers" type="java.lang.Iterable<ru.sinforge.mywebapplication.Entities.Flower>"*/-->
     <div th:each="flower : ${list_of_flowers}">
-        <div>
-            <label for="name">Flower Name: </label>
-            <p th:text="${flower.name}" name="name"></p>
-            <label for="desc">Description</label>
-            <p th:text="${flower.description}" name="desc"></p>
-            <label for="price">Price</label>
-            <p th:text="${flower.price}" name="price"> </p>
-        </div>
-        
+        <!--/*@thymesVar id="FlowerList" type="java.lang.Iterable<ru.sinforge.mywebapplication.Entities.Flower>"*/-->
+            <div class="list-flowers-item-img">
+                <img th:src="@{'/static/uploads/' + ${flower.getImgName()}}" width="100" height="100">
+            </div>
+            <a th:text="${flower.name}" name="name" th:href="@{/flower(id=${flower.id})}"></a>
     </div>
+        
 </main>
 </body>
 </html>
