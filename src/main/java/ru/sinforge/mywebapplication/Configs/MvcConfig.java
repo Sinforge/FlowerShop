@@ -10,6 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebMvc
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class MvcConfig  implements WebMvcConfigurer {
     @Value("${upload.path}")
     private String uploadPath;
