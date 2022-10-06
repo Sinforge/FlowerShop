@@ -8,23 +8,25 @@
     <title>Title</title>
 </head>
 <body>
-<header>
-    <nav>
-        <ul class="nav_bar">
-            <li class="nav-bar-element"><a href="/">Home</a></li>
-            <li class="nav-bar-element"><a href="/create">Создать цветок</a></li>
-            <li class="nav-bar-element"><a href="/login">Вход</a></li>
-            <li class="nav-bar-element"><a href="/registration">Регистрация</a></li>
-            <li class="nav-bar-element"><a href="/basket"><img src='/static/img/shoppingbasket.png' width="30" height="30" ></a></li>
-            <li >
-                <form th:action="@{/logout}" method="post">
-                    <input type="hidden" name="_csrf" value=" {{_csrf.token}}">
-                    <input type="submit" value="Sign Out" class="c-button submit service"/>
-                </form>
-            </li>
-        </ul>
-    </nav>
-</header>
+    <header>
+        <nav>
+            <ul class="nav_bar">
+                <li class="nav-bar-element"><a href="/">Home</a></li>
+                <li sec:authorize="isAnonymous()" class="nav-bar-element"><a href="/login">Вход</a></li>
+                <li sec:authorize="isAnonymous()" class="nav-bar-element"><a href="/registration">Регистрация</a></li>
+                <li sec:authorize="isAuthenticated()" class="nav-bar-element"><a href="/basket"><img src='/static/img/shoppingbasket.png' width="30" height="30" ></a></li>
+                <li sec:authorize="isAuthenticated()" class="nav-bar-element">
+                    <form th:action="@{/logout}" method="post">
+                        <input type="hidden" name="_csrf" value=" {{_csrf.token}}">
+                        <input type="submit" value="Sign Out" class="c-button submit service"/>
+                    </form>
+                </li>
+                <li sec:authorize="hasAnyAuthority('Administrator', 'Moderator')" class="nav-bar-element"><a href="/create">Создать цветок</a></li>
+                <li sec:authorize="hasAuthority('Administrator')" class="nav-bar-element"><a href="/userlist">Список пользователей</a></li>
+
+            </ul>
+        </nav>
+    </header>
 <main>
         <div class="list-flowers-item-img">
             <img th:src="@{'/static/uploads/' + ${flower.getImgName()}}" width="100" height="100">
@@ -48,15 +50,16 @@
 
             </div>
         </div>
+        <div sec:authorize="hasAnyAuthority('Moderator', 'Administrator')">
             <form th:method="post" action="/delete">
-                <input type="text" name="FlowerId" th:value="${flower.getId()}" hidden>
-                <input type="submit" value="Удалить цветок">
+                    <input type="text" name="FlowerId" th:value="${flower.getId()}" hidden>
+                    <input type="submit" value="Удалить цветок">
             </form>
 
-        <div>
         </div>
+        <div sec:authorize="hasAnyAuthority('Moderator', 'Administrator')">
             <form th:method="post" action="/update">
-                <p><input type="text" name="id" th:value="${flower.getId()}"> </p>
+                <p><input type="text" name="id" th:value="${flower.getId()}" hidden> </p>
                 <p>Name:<input type="text" name="name" th:value="${flower.name}"></p>
                 <p>Description<input type="text" name="description" th:value="${flower.description}"></p>
                 <p>Price <input type="number" name="price" th:value="${flower.price}"></p>
@@ -66,7 +69,7 @@
         </div>
 
 
-        <h4>Leave Comment</h4>
+        <h4 sec:authorize="isAuthenticated()">Leave Comment</h4>
         <div sec:authorize="isAuthenticated()">
             <form action="/LeaveComment" method="post">
                 <input hidden name="FlowerId" th:value="${flower.getId()}" >

@@ -6,6 +6,25 @@
     <title>Title</title>
 </head>
 <body>
+    <header>
+        <nav>
+            <ul class="nav_bar">
+                <li class="nav-bar-element"><a href="/">Home</a></li>
+                <li sec:authorize="isAnonymous()" class="nav-bar-element"><a href="/login">Вход</a></li>
+                <li sec:authorize="isAnonymous()" class="nav-bar-element"><a href="/registration">Регистрация</a></li>
+                <li sec:authorize="isAuthenticated()" class="nav-bar-element"><a href="/basket"><img src='/static/img/shoppingbasket.png' width="30" height="30" ></a></li>
+                <li sec:authorize="isAuthenticated()" class="nav-bar-element">
+                    <form th:action="@{/logout}" method="post">
+                        <input type="hidden" name="_csrf" value=" {{_csrf.token}}">
+                        <input type="submit" value="Sign Out" class="c-button submit service"/>
+                    </form>
+                </li>
+                <li sec:authorize="hasAnyAuthority('Administrator', 'Moderator')" class="nav-bar-element"><a href="/create">Создать цветок</a></li>
+                <li sec:authorize="hasAuthority('Administrator')" class="nav-bar-element"><a href="/userlist">Список пользователей</a></li>
+
+            </ul>
+        </nav>
+    </header>
     <form method="post">
         <input hidden type="number" th:value="userId">
         <ul>
