@@ -1,8 +1,21 @@
+@font-face {
+    font-family: "SignikaNegative-Bold";
+    src: url("/static/fonts/static/SignikaNegative-Bold.ttf");
+}
+@font-face {
+    font-family: "SignikaNegative-Regular";
+    src: url("/static/fonts/static/SignikaNegative-Regular.ttf");
+}
+@font-face {
+    font-family: "SignikaNegative-Medium.";
+    src: url("/static/fonts/static/SignikaNegative-Medium.ttf");
+}
 header {
     width: 100%;
     margin-left: 0;
     margin-top: 0;
     margin-right: 0;
+    padding: 0 0 0  0;
 }
 .nav_bar {
     list-style-type: none;
@@ -17,7 +30,9 @@ header {
 .nav-bar-element {
     float: left;
 }
-.nav-bar-element a {
+.nav-bar-element a 
+{
+    font-family: SignikaNegative-Medium, serif;
     display: block;
     color: #ffffff;
     text-align: center;
@@ -34,29 +49,120 @@ header {
 .list-flowers {
     background: rgb(230,233,230);
     margin-left: 40px;
-    flex: 40%;
-}
-.list-flowers-item {
-    margin-top: 20px;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+}
+.list-flowers-item {
+    margin: 10px 10px 10px 10px;
+    text-decoration: none;
+    border-radius: 10px;
+    border-style: solid;
+    box-shadow: 0 4px 10px rgb(0 0 0 / 5%);
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
     border-bottom-style: dashed;
+
 }
 .list-flowers-item-info {
-    display: flex;
-    font-size: 10px;
-    flex-direction: column;
+    margin-left: 30px;
+    align-content: center;
+    height: fit-content;
 }
 
 .list-flowers-item-img {
-    margin-left: 20px;
-    margin-right: 30px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    align-content: center;
 }
 body {
-
+    margin: 0 0 0 0;
+    background-color: grey;
 }
 
 .search_params {
     flex: 10%;
     background-color: #00ffcb;
+}
+.star-wrapper {
+    direction: rtl;
+}
+.star-wrapper a {
+    font-size: 2em;
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.5s;
+    margin: 4px;
+}
+.star-wrapper a:hover {
+    color: gold;
+    transform: scale(1.3);
+}
+.s1:hover ~ a {
+    color: gold;
+}
+.s2:hover ~ a {
+    color: gold;
+}
+.s3:hover ~ a {
+    color: gold;
+}
+.s4:hover ~ a {
+    color: gold;
+}
+.s5:hover ~ a {
+    color: gold;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-family: SignikaNegative-Bold, sans-serif;
+    font-size: 35px;
+
+}
+.flower-description {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin: 40px 40px 40px 40px;
+
+}
+.list-flowers-item-info > p {
+    font-family: SignikaNegative-Regular, sans-serif;
+    font-size: 20px;
+}
+
+.comment-container {
+    margin-left: 40px;
+}
+
+.flower-container {
+    margin: 20px 20px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    align-items: flex-start;
+}
+
+.author-comment {
+    font-family: SignikaNegative-Regular, serif;
+    font-size: 20px;
+}
+.inline-author {
+    font-family: SignikaNegative-Medium, serif;
+    font-size: 25px;
+    display: flex;
+    flex-direction: row;
+    justify-items: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+
 }
