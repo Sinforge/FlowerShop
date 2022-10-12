@@ -11,10 +11,10 @@
             <nav >
 
                 <ul class="nav_bar">
-                    <li class="nav-bar-element"><strong>Flower Shop</strong></li>
-                    <li class="nav-bar-element"><a href="/">Home</a></li>
-                    <li sec:authorize="isAnonymous()" class="nav-bar-element"><a href="/login">Вход</a></li>
-                    <li sec:authorize="isAnonymous()" class="nav-bar-element"><a href="/registration">Регистрация</a></li>
+                    <li class="nav-bar-element" style="border-bottom: none"><strong>Flower Shop</strong></li>
+                    <li class="nav-bar-element" style="border-bottom: solid"><a href="/">Home</a></li>
+                    <li sec:authorize="isAnonymous()" class="nav-bar-element"><a href="/login">Log-in</a></li>
+                    <li sec:authorize="isAnonymous()" class="nav-bar-element"><a href="/registration">Registration</a></li>
                     <li sec:authorize="isAuthenticated()" class="nav-bar-element"><a href="/basket"><img src='/static/img/shoppingbasket.png' width="30" height="30" ></a></li>
                     <li sec:authorize="isAuthenticated()" class="nav-bar-element">
                         <form th:action="@{/logout}" method="post">
@@ -28,6 +28,7 @@
                 </ul>
             </nav>
         </header>
+
         <main class="flower-selection-block">
             <div class="search_params">
                 <div>
@@ -42,16 +43,20 @@
             </div>
             <div class="list-flowers">
                 <div th:each="flower : ${FlowerList}">
-                    <a th:href="@{/flower(id=${flower.id})}">
+                    <a th:href="@{/flower(id=${flower.id})}" class="flower-url">
 
                         <!--/*@thymesVar id="FlowerList" type="java.lang.Iterable<ru.sinforge.mywebapplication.Entities.Flower>"*/-->
                         <div class="list-flowers-item" >
                             <div class="list-flowers-item-img">
-                                <img th:src="@{'/static/uploads/' + ${flower.getImgName()}}" width="100" height="100">
+                                <img th:src="@{'/static/uploads/' + ${flower.getImgName()}}" width="200" height="200">
                             </div>
                             <div class="list-flowers-item-info">
-                                <p th:text="${flower.name}" name="name"></p>
-                                <p th:text="${flower.price}" name="price"> </p>
+                                <div style="text-align: center">
+                                    <p th:text="${flower.name}" name="name"></p>
+                                </div>
+                                <div style="text-align: center;">
+                                    <p th:text="${flower.price} + '&#8381'" name="price"> </p>
+                                </div>
                             </div>
                             <br><br><br>
                         </div>

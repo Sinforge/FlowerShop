@@ -8,25 +8,27 @@
     <title>Title</title>
 </head>
 <body>
-    <header>
-        <nav>
-            <ul class="nav_bar">
-                <li class="nav-bar-element"><a href="/">Home</a></li>
-                <li sec:authorize="isAnonymous()" class="nav-bar-element"><a href="/login">Вход</a></li>
-                <li sec:authorize="isAnonymous()" class="nav-bar-element"><a href="/registration">Регистрация</a></li>
-                <li sec:authorize="isAuthenticated()" class="nav-bar-element"><a href="/basket"><img src='/static/img/shoppingbasket.png' width="30" height="30" ></a></li>
-                <li sec:authorize="isAuthenticated()" class="nav-bar-element">
-                    <form th:action="@{/logout}" method="post">
-                        <input type="hidden" name="_csrf" value=" {{_csrf.token}}">
-                        <input type="submit" value="Sign Out" class="c-button submit service"/>
-                    </form>
-                </li>
-                <li sec:authorize="hasAnyAuthority('Administrator', 'Moderator')" class="nav-bar-element"><a href="/create">Создать цветок</a></li>
-                <li sec:authorize="hasAuthority('Administrator')" class="nav-bar-element"><a href="/userlist">Список пользователей</a></li>
+<header>
+    <nav >
 
-            </ul>
-        </nav>
-    </header>
+        <ul class="nav_bar">
+            <li class="nav-bar-element"><strong>Flower Shop</strong></li>
+            <li class="nav-bar-element"><a href="/">Home</a></li>
+            <li sec:authorize="isAnonymous()" class="nav-bar-element"><a href="/login">Log-in</a></li>
+            <li sec:authorize="isAnonymous()" class="nav-bar-element"><a href="/registration">Registration</a></li>
+            <li sec:authorize="isAuthenticated()" class="nav-bar-element"><a href="/basket"><img src='/static/img/shoppingbasket.png' width="30" height="30" ></a></li>
+            <li sec:authorize="isAuthenticated()" class="nav-bar-element">
+                <form th:action="@{/logout}" method="post">
+                    <input type="hidden" name="_csrf" value=" {{_csrf.token}}">
+                    <input type="submit" value="Sign Out" class="c-button submit service"/>
+                </form>
+            </li>
+            <li sec:authorize="hasAnyAuthority('Administrator', 'Moderator')" class="nav-bar-element"><a href="/create">Создать цветок</a></li>
+            <li sec:authorize="hasAuthority('Administrator')" class="nav-bar-element"><a href="/userlist">Список пользователей</a></li>
+
+        </ul>
+    </nav>
+</header>
 <main class="flower-container">
     <!--Info about flower and img -->
     <div class="flower-description">
@@ -73,7 +75,7 @@
                 <p>Name:<input type="text" name="name" th:value="${flower.name}"></p>
                 <p>Description<input type="text" name="description" th:value="${flower.description}"></p>
                 <p>Price <input type="number" name="price" th:value="${flower.price}"></p>
-                <input type="submit" value="Обновить данные">
+                <input type="submit" value="Update">
             </form>
 
         </div>
@@ -83,7 +85,7 @@
         <div sec:authorize="isAuthenticated()">
             <form action="/LeaveComment" method="post">
                 <input hidden name="FlowerId" th:value="${flower.getId()}" >
-                <textarea name="Text" cols="15" rows="15"></textarea>
+                <textarea name="Text" cols="15" rows="50"></textarea>
                 <input type="submit" value="Leave">
             </form>
         </div>
