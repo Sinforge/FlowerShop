@@ -4,48 +4,120 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+
 </head>
 <body>
-    <header>
-        <nav>
-            <ul class="nav_bar">
-                <li class="nav-bar-element"><a href="/">Home</a></li>
-                <li sec:authorize="isAnonymous()" class="nav-bar-element"><a href="/login">Вход</a></li>
-                <li sec:authorize="isAnonymous()" class="nav-bar-element"><a href="/registration">Регистрация</a></li>
-                <li sec:authorize="isAuthenticated()" class="nav-bar-element"><a href="/basket"><img src='/static/img/shoppingbasket.png' width="30" height="30" ></a></li>
-                <li sec:authorize="isAuthenticated()" class="nav-bar-element">
-                    <form th:action="@{/logout}" method="post">
-                        <input type="hidden" name="_csrf" value=" {{_csrf.token}}">
-                        <input type="submit" value="Sign Out" class="c-button submit service"/>
-                    </form>
-                </li>
-                <li sec:authorize="hasAnyAuthority('Administrator', 'Moderator')" class="nav-bar-element"><a href="/create">Создать цветок</a></li>
-                <li sec:authorize="hasAuthority('Administrator')" class="nav-bar-element"><a href="/userlist">Список пользователей</a></li>
+<header>
+    <nav >
 
-            </ul>
-        </nav>
-    </header>
-    <div>
-        <div style="display: inline-block" th:each="user : ${UserList}">
-            <div style="border-style: dashed;">
-                <label for="userId">UserID: </label>
-                <p th:text="${user.getId()}" name="userId" ></p>
-                <label for="userName">UserName</label>
-                <p th:text="${user.getUsername()}" name="userName"></p>
-                <label for="roles">User Roles</label>
-                <div name="roles" th:each="role : ${user.getRoles()}">
-                    <p th:text="${role}"> </p>
-                </div>
-                <form method="post" action="/delete_user">
-                    <input hidden type="number" name="id" th:value="${user.getId()}">
-                    <input type="submit" value="Delete User">
+        <ul class="nav_bar">
+            <li class="nav-bar-element"><strong>Flower Shop</strong></li>
+            <li class="nav-bar-element"><a href="/">Home</a></li>
+            <li sec:authorize="isAnonymous()" class="nav-bar-element"><a href="/login">Log-in</a></li>
+            <li sec:authorize="isAnonymous()" class="nav-bar-element"><a href="/registration">Registration</a></li>
+            <li sec:authorize="isAuthenticated()" class="nav-bar-element"><a href="/basket"><img src='/static/img/shoppingbasket.png' width="30" height="30" ></a></li>
+            <li sec:authorize="isAuthenticated()" class="nav-bar-element">
+                <form th:action="@{/logout}" method="post">
+                    <input type="hidden" name="_csrf" value=" {{_csrf.token}}">
+                    <input type="submit" value="Sign Out" class="c-button submit service"/>
                 </form>
-                <form method="get" action="/change_user_roles" >
-                    <input hidden type="number" name="id" th:value="${user.getId()}">
-                    <input type="submit" value="Change User Roles">
-                </form>
-            </div>
-        </div>
+            </li>
+            <li sec:authorize="hasAnyAuthority('Administrator', 'Moderator')" class="nav-bar-element"><a href="/create">Создать цветок</a></li>
+            <li sec:authorize="hasAuthority('Administrator')" style="border-bottom: solid" class="nav-bar-element"><a href="/userlist">Список пользователей</a></li>
+
+        </ul>
+    </nav>
+</header>
+    <div style="display: flex; flex-direction: row; justify-content: center; justify-items: center " class="b-container">
+        <table>
+            <caption>User list </caption>
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Roles</th>
+                    <th scope="col">Delete</th>
+                    <th scope="col">Change Roles</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="user : ${UserList}">
+                    <td th:text="${user.getId()}"></td>
+                    <td th:text="${user.getUsername()}"></td>
+                    <td th:text="${user.getRoles.toString()}" th:id="${user.getId()}"></td>
+                    <td>
+                        <form method="post" action="/delete_user">
+                            <input hidden type="number" name="id" th:value="${user.getId()}">
+                            <input type="submit" value="Delete">
+                        </form>
+                    </td>
+                    <td>
+                        <form method="get" action="/change_user_roles">
+                            <input hidden type="number" name="id" th:value="${user.getId()}">
+                            <input type="submit" value="Change roles">
+                        </form>
+
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
+
+
+        <!--     </div>
+           <div class="b-popup" id="popup1">
+                <div class="b-popup-content">
+                    <form method="post">
+                        <input hidden type="number" id="UserId" >
+                        <ul>
+                            <li>
+                                <label for="roles[]">Administartor</label>
+                                <input type="checkbox" name="roles[]" id="role1" value="Administrator">
+                            </li>
+
+                            <li>
+                                <label for="roles[]" >DefaultUser</label>
+                                <input type="checkbox" name="roles[]" id="role2" value="DefaultUser">
+                            </li>
+                            <li>
+                                <label for="roles[]">Moderator</label>
+                                <input type="checkbox" name="roles[]" id="role3" value="Moderator">
+                            </li>
+                        </ul>
+                        <input type="submit" value="Change">
+                    </form>
+                    <button onclick="PopUpHide" >Close</button>
+                </div>
+            </div>
+        <script src="http://code.jquery.com/jquery-2.0.2.min.js"></script>
+        <script>
+            //Скрыть PopUp при загрузке страницы
+            PopUpHide();
+            //Функция отображения PopUp
+            function PopUpShow(UserId){
+                $("#UserId").value = UserId;
+                let role1 = $("#role1");
+                let role2 = $("#role2");
+                let role3 = $("#role3");
+                let UserRoles = $("#"+ UserId);
+                if(UserRoles.contains("Administrator")) {
+                    role1.prop('checked', true);
+                }
+                if(UserRoles.contains("DefaultUser")) {
+                    role2.prop('checked', true);
+                }
+                if(UserRoles.contains(("Moderator"))) {
+                    role3.prop('checked',true)
+                }
+                $("#popup1").show();
+            }
+            //Функция скрытия PopUp
+            function PopUpHide(){
+                $("#popup1").hide();
+            }
+
+        </script> -->
 </body>
 </html>
