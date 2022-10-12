@@ -22,32 +22,38 @@ header {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #00ffcb;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-items: flex-start;
+    align-items: center;
+    background-color: rgb(94,84,93);
     top: 0;
     width: 100%;
 }
 
-.nav-bar-element {
-    float: left;
+.nav-bar-element:hover {
+    border-bottom-style: solid;
 }
-.nav-bar-element a 
+.nav-bar-element strong, .nav-bar-element a
 {
     font-family: SignikaNegative-Medium, serif;
     display: block;
-    color: #ffffff;
+    color: white;
+    background-color: rgb(94,84,93);
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
 }
+
 .flower-selection-block {
-    background-color: rgba(210, 210, 210, 0.5);
+    background-color: rgb(251,251,251);
     border: 1px solid #000;
     padding: 0.5rem;
     display: flex;
 
 }
 .list-flowers {
-    background: rgb(230,233,230);
     margin-left: 40px;
     display: flex;
     flex-direction: row;
@@ -58,20 +64,25 @@ header {
     text-decoration: none;
     border-radius: 10px;
     border-style: solid;
-    box-shadow: 0 4px 10px rgb(0 0 0 / 5%);
+    border-color: transparent;
     display: flex;
+    background-color: white;
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
     align-content: center;
     align-items: center;
-    border-bottom-style: dashed;
+    width: 200px;
 
 }
+.list-flowers-item:hover {
+    box-shadow: 0 0 5px 2px black;
+}
 .list-flowers-item-info {
-    margin-left: 30px;
     align-content: center;
     height: fit-content;
+    color: black;
+    font-family: SignikaNegative-Regular, serif;
 }
 
 .list-flowers-item-img {
@@ -85,12 +96,12 @@ header {
 }
 body {
     margin: 0 0 0 0;
-    background-color: grey;
+    background-color: rgb(251,251,251);
 }
 
 .search_params {
-    flex: 10%;
-    background-color: #00ffcb;
+    height: fit-content;
+    padding: 40px 40px 40px 40px;
 }
 .star-wrapper {
     direction: rtl;
@@ -137,8 +148,11 @@ h1,h2,h3,h4,h5,h6 {
 .list-flowers-item-info > p {
     font-family: SignikaNegative-Regular, sans-serif;
     font-size: 20px;
+    text-decoration: none;
 }
-
+a {
+    text-decoration: none;
+}
 .comment-container {
     margin-left: 40px;
 }
@@ -164,5 +178,74 @@ h1,h2,h3,h4,h5,h6 {
     justify-items: flex-start;
     align-items: center;
     flex-wrap: wrap;
+}
+
+input[type=submit] {
+    font-family: SignikaNegative-Regular, serif;
+    font-size: 15px;
+    border-radius: 5px;
+    border-color: transparent;
+    background-color: rgb(94,84,93);
+    color: white;
+    width: fit-content;
 
 }
+
+
+.form-container {
+    margin-top: 20px;
+    font-family: SignikaNegative-Medium, serif;
+    font-size: 20px;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    overflow: hidden;
+}
+.form-container input[type="text"], .form-container input[type="password"], .form-container input[type="number"] {
+    font-family: SignikaNegative-Regular, serif;
+    padding: 10px 5px 10px 5px;
+    display: block;
+    width: 100%;
+
+    margin-right: 0;
+}
+.form-container label {
+    font-family: SignikaNegative-Regular, serif;
+    font-size: 20px;
+    margin-bottom: 5px;
+    display: inline-block;
+
+}
+.form-container .text-field {
+    display: block;
+    margin-bottom: 15px;
+}
+.form-container form {
+    align-self: flex-start;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 40%;
+    background-color: white;
+    max-width: 680px;
+
+}
+table {
+    font-family: SignikaNegative-Regular, serif;
+    font-size: 15px;
+    border-radius: 10px;
+    text-align: center  ;
+}
+table th {
+    background-color: rgb(94,84,93);
+    color: white;
+}
+th, td {
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    border-color: black;
+}
+
+
+

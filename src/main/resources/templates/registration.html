@@ -8,31 +8,48 @@
     <title>Title</title>
 </head>
 <body>
-    <header>
-        <nav>
-            <ul class="nav_bar">
-                <li class="nav-bar-element"><a href="/">Home</a></li>
-                <li sec:authorize="isAnonymous()" class="nav-bar-element"><a href="/login">Вход</a></li>
-                <li sec:authorize="isAnonymous()" class="nav-bar-element"><a href="/registration">Регистрация</a></li>
-                <li sec:authorize="isAuthenticated()" class="nav-bar-element"><a href="/basket"><img src='/static/img/shoppingbasket.png' width="30" height="30" ></a></li>
-                <li sec:authorize="isAuthenticated()" class="nav-bar-element">
-                    <form th:action="@{/logout}" method="post">
-                        <input type="hidden" name="_csrf" value=" {{_csrf.token}}">
-                        <input type="submit" value="Sign Out" class="c-button submit service"/>
-                    </form>
-                </li>
-                <li sec:authorize="hasAnyAuthority('Administrator', 'Moderator')" class="nav-bar-element"><a href="/create">Создать цветок</a></li>
-                <li sec:authorize="hasAuthority('Administrator')" class="nav-bar-element"><a href="/userlist">Список пользователей</a></li>
+<header>
+    <nav >
 
-            </ul>
-        </nav>
-    </header>
-    <p>Registration</p>
-    <form method="post" >
-        <p>Name:<input type="text" name="username"></p>
-        <p>Password: <input type="text" name="password"></p>
-        <p><input type="submit" value="Отправить"></p>
-    </form>
+        <ul class="nav_bar">
+            <li class="nav-bar-element"><strong>Flower Shop</strong></li>
+            <li class="nav-bar-element"><a href="/">Home</a></li>
+            <li sec:authorize="isAnonymous()"  class="nav-bar-element"><a href="/login">Log-in</a></li>
+            <li sec:authorize="isAnonymous()" style="border-bottom: solid" class="nav-bar-element"><a href="/registration">Registration</a></li>
+            <li sec:authorize="isAuthenticated()" class="nav-bar-element"><a href="/basket"><img src='/static/img/shoppingbasket.png' width="30" height="30" ></a></li>
+            <li sec:authorize="isAuthenticated()" class="nav-bar-element">
+                <form th:action="@{/logout}" method="post">
+                    <input type="hidden" name="_csrf" value=" {{_csrf.token}}">
+                    <input type="submit" value="Sign Out" class="c-button submit service"/>
+                </form>
+            </li>
+            <li sec:authorize="hasAnyAuthority('Administrator', 'Moderator')" class="nav-bar-element"><a href="/create">Создать цветок</a></li>
+            <li sec:authorize="hasAuthority('Administrator')" class="nav-bar-element"><a href="/userlist">Список пользователей</a></li>
+
+        </ul>
+    </nav>
+</header>
+    <main class="justify-content-xxl-center">
+        <div class="form-container">
+
+            <form method="post" align="left">
+                <h1 align="center">Registration</h1>
+                <div class="text-field">
+                    <label  for="username">UserName</label>
+                    <input  type="text" name="username" placeholder="your username" required>
+                </div>
+                <div class="text-field">
+                    <label for="password">Password</label>
+                    <input type="text" name="password" placeholder="your password"></p>
+                </div>
+                <div style="text-align: center">
+                    <input type="submit" value="Register" />
+                </div>
+            </form>
+        </div>
+
+    </main>
+
 
 </body>
 </html>
