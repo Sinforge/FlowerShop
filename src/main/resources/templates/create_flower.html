@@ -7,32 +7,56 @@
     <title>Title</title>
 </head>
 <body>
-    <header>
-        <nav>
-            <ul class="nav_bar">
-                <li class="nav-bar-element"><a href="/">Home</a></li>
-                <li sec:authorize="isAnonymous()" class="nav-bar-element"><a href="/login">Вход</a></li>
-                <li sec:authorize="isAnonymous()" class="nav-bar-element"><a href="/registration">Регистрация</a></li>
-                <li sec:authorize="isAuthenticated()" class="nav-bar-element"><a href="/basket"><img src='/static/img/shoppingbasket.png' width="30" height="30" ></a></li>
-                <li sec:authorize="isAuthenticated()" class="nav-bar-element">
-                    <form th:action="@{/logout}" method="post">
-                        <input type="hidden" name="_csrf" value=" {{_csrf.token}}">
-                        <input type="submit" value="Sign Out" class="c-button submit service"/>
-                    </form>
-                </li>
-                <li sec:authorize="hasAnyAuthority('Administrator', 'Moderator')" class="nav-bar-element"><a href="/create">Создать цветок</a></li>
-                <li sec:authorize="hasAuthority('Administrator')" class="nav-bar-element"><a href="/userlist">Список пользователей</a></li>
+<header>
+    <nav >
 
-            </ul>
-        </nav>
-    </header>
-    <p>Create the flower</p>
-    <form method="post" enctype="multipart/form-data">
-        <p>Name:<input type="text" name="name"></p>
-        <p>Description<input type="text" name="description"></p>
-        <p>Price <input type="number" name="price"></p>
-        <p>Img <input type="file" name="img"></p>
-        <p><input type="submit" value="Отправить"></p>
-    </form>
+        <ul class="nav_bar">
+            <li class="nav-bar-element"><strong>Flower Shop</strong></li>
+            <li class="nav-bar-element"><a href="/">Home</a></li>
+            <li sec:authorize="isAnonymous()" class="nav-bar-element"><a href="/login">Log-in</a></li>
+            <li sec:authorize="isAnonymous()" class="nav-bar-element"><a href="/registration">Registration</a></li>
+            <li sec:authorize="isAuthenticated()" class="nav-bar-element"><a href="/basket"><img src='/static/img/shoppingbasket.png' width="30" height="30" ></a></li>
+            <li sec:authorize="isAuthenticated()" class="nav-bar-element">
+                <form th:action="@{/logout}" method="post">
+                    <input type="hidden" name="_csrf" value=" {{_csrf.token}}">
+                    <input type="submit" value="Sign Out" class="c-button submit service"/>
+                </form>
+            </li>
+            <li sec:authorize="hasAnyAuthority('Administrator', 'Moderator')" style="border-bottom: solid" class="nav-bar-element"><a href="/create">Создать цветок</a></li>
+            <li sec:authorize="hasAuthority('Administrator')" class="nav-bar-element"><a href="/userlist">Список пользователей</a></li>
+
+        </ul>
+    </nav>
+</header>
+<main class="justify-content-xxl-center">
+    <div class="form-container">
+        <form method="post" enctype="multipart/form-data">
+            <h1 align="center">Create the flower</h1>
+            <div class="text-field">
+                <label for="name">Flower Name</label>
+                <input type="text" name="name" placeholder="input flower name">
+            </div>
+            <div class="text-field">
+                <label for="name">Description</label>
+                <input type="text" name="description" placeholder="input description of flower">
+            </div>
+            <div class="text-field">
+                <label for="price">Price</label>
+                <input type="number" name="price" placeholder="input price">
+            </div>
+            <div>
+                <label for="img">Image</label>
+                <input type="file" name="img">
+
+            </div>
+            <div style="text-align: center">
+                <input type="submit" value="Create">
+            </div>
+
+        </form>
+    </div>
+
+</main>
+
 </body>
 </html>
