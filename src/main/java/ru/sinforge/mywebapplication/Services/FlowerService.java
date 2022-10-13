@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import ru.sinforge.mywebapplication.Entities.Flower;
 import ru.sinforge.mywebapplication.Entities.FlowerBouquet;
+import ru.sinforge.mywebapplication.Entities.Rating;
 import ru.sinforge.mywebapplication.Entities.User;
 import ru.sinforge.mywebapplication.Repositories.BasketRepo;
+import ru.sinforge.mywebapplication.Repositories.ReviewRepo;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,9 +29,15 @@ import java.util.concurrent.Flow;
 public class FlowerService {
     @Value("${upload.path}")
     private String uploadPath;
-    private BasketRepo basketRepo;
+
+    private final BasketRepo basketRepo;
+    private final ReviewRepo reviewRepo;
 
 
+    public FlowerService(BasketRepo basketRepo, ReviewRepo reviewRepo) {
+        this.basketRepo = basketRepo;
+        this.reviewRepo = reviewRepo;
+    }
 
     public Boolean createFlower(Flower flower, MultipartFile img) throws ExecutionException, InterruptedException {
         flower.setId(UUID.randomUUID().toString());
@@ -136,4 +144,33 @@ public class FlowerService {
         }
         return sortedFlowers;
     }
- }
+
+    public void addReview(Long userid, String flowerId, short userRating) {
+        Rating checkRating = reviewRepo.findByFloweridAndUserid(flowerId, userid);
+        if(checkRating != null) {
+            checkRating.setRating(userRating);
+            reviewRepo.save(checkRating);
+            return;
+        }
+        Rating userRatingObj = new Rating();
+        userRatingObj.setRating(userRating);
+        userRatingObj.setFlowerid(flowerId);
+        userRatingObj.setUserid((userid));
+        reviewRepo.save(userRatingObj);
+    }
+    public double getSummaryRating(String flowerId) {
+        ArrayList<Rating> flowerRatings = reviewRepo.findAllByFlowerid(flowerId);
+        double averageRating = 0;
+        for ( Rating rating: flowerRatings) {
+            averageRating += rating.getRating();
+        }
+        return (averageRating / flowerRatings.size());
+    }
+    public int getUserRatingOfFlower(String flowerId, Long userId) {
+        Rating rating = reviewRepo.findByFloweridAndUserid(flowerId, userId);
+        if (rating != null) {
+            return rating.getRating();
+        }
+        return -1;
+    }
+}

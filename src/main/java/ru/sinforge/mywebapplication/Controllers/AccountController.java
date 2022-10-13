@@ -19,7 +19,6 @@ public class AccountController {
 
     @GetMapping("/registration")
     public String Registration() {
-
         logger.info("User start registration");
         return "registration";
     }
@@ -33,6 +32,5 @@ public class AccountController {
         logger.info("New user successful added");
         return "login";
     }
-
 
 }

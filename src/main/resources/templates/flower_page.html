@@ -38,6 +38,9 @@
                 <img th:src="@{'/static/uploads/' + ${flower.getImgName()}}" width="300px" height="300px">
             </div>
             <div class="star-wrapper">
+                <form>
+
+                </form>
                 <a href="#" class="fas fa-star s1"></a>
                 <a href="#" class="fas fa-star s2"></a>
                 <a href="#" class="fas fa-star s3"></a>
@@ -50,6 +53,7 @@
             <h1 th:text="${flower.name}" name="name"></h1>
             <p th:text="${flower.description}" name="desc"></p>
             <p th:text="${flower.price} + '&#8381'" name="price"> </p>
+            <p th:text="'Average rating:' + ${flowerRating}"></p>
         </div>
         <div sec:authorize="isAuthenticated()">
             <div th:switch="${FlowerInBasket}">
@@ -61,6 +65,24 @@
                 </div>
 
             </div>
+            <div th:switch="${flowerRatingUser}">
+                <p th:case=0>U dont rate this flower</p>
+                <p th:case=1>1*</p>
+                <p th:case=2>2*</p>
+                <p th:case=3>3*</p>
+                <p th:case=4>4*</p>
+                <p th:case=5>5*</p>
+
+            </div>
+        </div>
+        <div class="rating">
+            <form method="post" action="/review">
+                <input hidden type="text" name="flowerId" th:value="${flower.id}">
+                <label for="user-rating">Input rating of this flower</label>
+                <input type="number" name="userRating">
+                <input type="submit" value="Send review">
+            </form>
+
         </div>
         <div sec:authorize="hasAnyAuthority('Moderator', 'Administrator')">
             <form th:method="post" action="/delete">

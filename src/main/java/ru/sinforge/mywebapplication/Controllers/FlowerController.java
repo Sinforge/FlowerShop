@@ -1,5 +1,6 @@
 package ru.sinforge.mywebapplication.Controllers;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,17 +60,20 @@ public class FlowerController {
     @GetMapping("/flower")
     public String FlowerPage(@AuthenticationPrincipal User user, @RequestParam(value = "id", required = true) String id, Model model) throws ExecutionException, InterruptedException {
 
-        model.addAttribute("userIsAuth", user == null);
         if(user != null) {
             model.addAttribute("FlowerInBasket", StreamSupport.stream(
                             userService.GetUserFlowerBasket(user).spliterator(), false)
                     .anyMatch(Flower -> id.equals(Flower.getFlowerId())));
+            model.addAttribute("flowerRatingUser", flowerService.getUserRatingOfFlower(id, user.getId()));
+
         }
         model.addAttribute("flower", flowerService.getFlower(id));
         model.addAttribute("comments", commentService.GetAllCommentsOnFlowerPage(id));
+        model.addAttribute("flowerRating", flowerService.getSummaryRating(id));
         return "flower_page";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/AddToBasket")
     public String AddToBasket(@AuthenticationPrincipal User user, String FlowerId) {
         userService.AddBouquet(user, FlowerId);
@@ -95,7 +99,7 @@ public class FlowerController {
 
     }
 
-
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/basket")
     public String UserBasket(@AuthenticationPrincipal User user, Model model) throws ExecutionException, InterruptedException {
         Iterable<FlowerBouquet> Bouquets = userService.GetUserFlowerBasket(user);
@@ -110,9 +114,18 @@ public class FlowerController {
         return "user_basket";
     }
 
+
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/LeaveComment")
     public String LeaveComment(@AuthenticationPrincipal User user,  CommentViewModel comment) {
         commentService.AddComment(comment, user.getUsername());
+        return "redirect:/";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/review")
+    public String SendReview(@AuthenticationPrincipal User user, String flowerId, short userRating) {
+        flowerService.addReview(user.getId(), flowerId, userRating);
         return "redirect:/";
     }
 }
