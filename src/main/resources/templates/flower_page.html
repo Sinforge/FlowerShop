@@ -3,8 +3,11 @@
       xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <meta charset="UTF-8">
+    <script src="/static/js/flower_page_script.js"></script>
     <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <title>Title</title>
 </head>
 <body>
@@ -37,18 +40,26 @@
             <div>
                 <img th:src="@{'/static/uploads/' + ${flower.getImgName()}}" width="300px" height="300px">
             </div>
-            <div class="star-wrapper">
-                <form>
-
-                </form>
-                <a href="#" class="fas fa-star s1"></a>
-                <a href="#" class="fas fa-star s2"></a>
-                <a href="#" class="fas fa-star s3"></a>
-                <a href="#" class="fas fa-star s4"></a>
-                <a href="#" class="fas fa-star s5"></a>
-            </div>
-            <script src="https://kit.fontawesome.com/5ea815c1d0.js"></script>
+            <form action="/review" method="post" id="change-rating-form" sec:authorize="isAuthenticated()">
+                <div class="star-rating">
+                    <div class="star-rating__wrap">
+                        <input class="star-rating__input"  id="star-rating-5" type="radio" name="rating" value="5">
+                        <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-5" title="5 out of 5 stars"></label>
+                        <input class="star-rating__input" id="star-rating-4" type="radio" name="rating" value="4">
+                        <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-4" title="4 out of 5 stars"></label>
+                        <input class="star-rating__input" id="star-rating-3" type="radio" name="rating" value="3">
+                        <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-3" title="3 out of 5 stars"></label>
+                        <input class="star-rating__input" id="star-rating-2" type="radio" name="rating" value="2">
+                        <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-2" title="2 out of 5 stars"></label>
+                        <input class="star-rating__input" id="star-rating-1" type="radio" name="rating" value="1">
+                        <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-1" title="1 out of 5 stars"></label>
+                        <input hidden type="text" th:value="${flower.getId()}" name="flowerId">
+                    </div>
+                </div>
+            </form>
+            <p hidden id="user-rate" th:text="${flowerRatingUser}"></p>
         </div>
+
         <div class="list-flowers-item-info">
             <h1 th:text="${flower.name}" name="name"></h1>
             <p th:text="${flower.description}" name="desc"></p>
@@ -65,25 +76,8 @@
                 </div>
 
             </div>
-            <div th:switch="${flowerRatingUser}">
-                <p th:case=0>U dont rate this flower</p>
-                <p th:case=1>1*</p>
-                <p th:case=2>2*</p>
-                <p th:case=3>3*</p>
-                <p th:case=4>4*</p>
-                <p th:case=5>5*</p>
-
-            </div>
         </div>
-        <div class="rating">
-            <form method="post" action="/review">
-                <input hidden type="text" name="flowerId" th:value="${flower.id}">
-                <label for="user-rating">Input rating of this flower</label>
-                <input type="number" name="userRating">
-                <input type="submit" value="Send review">
-            </form>
 
-        </div>
         <div sec:authorize="hasAnyAuthority('Moderator', 'Administrator')">
             <form th:method="post" action="/delete">
                 <input type="text" name="FlowerId" th:value="${flower.getId()}" hidden>
@@ -107,7 +101,7 @@
         <div sec:authorize="isAuthenticated()">
             <form action="/LeaveComment" method="post">
                 <input hidden name="FlowerId" th:value="${flower.getId()}" >
-                <textarea name="Text" cols="15" rows="50"></textarea>
+                <textarea name="Text" cols="50" rows="5"></textarea>
                 <input type="submit" value="Leave">
             </form>
         </div>

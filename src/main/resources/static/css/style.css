@@ -79,6 +79,7 @@ header {
     box-shadow: 0 0 5px 2px black;
 }
 .list-flowers-item-info {
+    margin-left: 50px;
     align-content: center;
     height: fit-content;
     color: black;
@@ -103,34 +104,40 @@ body {
     height: fit-content;
     padding: 40px 40px 40px 40px;
 }
-.star-wrapper {
-    direction: rtl;
+.star-rating {
+    font-size: 0;
 }
-.star-wrapper a {
-    font-size: 2em;
-    color: #fff;
-    text-decoration: none;
-    transition: all 0.5s;
-    margin: 4px;
+
+.star-rating__wrap {
+    display: inline-block;
+    font-size: 1rem;
 }
-.star-wrapper a:hover {
-    color: gold;
-    transform: scale(1.3);
+
+.star-rating__wrap:after {
+    content: "";
+    display: table;
+    clear: both;
 }
-.s1:hover ~ a {
-    color: gold;
+
+.star-rating__ico {
+    float: right;
+    padding-left: 2px;
+    cursor: pointer;
+    color: #FFB300;
 }
-.s2:hover ~ a {
-    color: gold;
+
+.star-rating__ico:last-child {
+    padding-left: 0;
 }
-.s3:hover ~ a {
-    color: gold;
+
+.star-rating__input {
+    display: none;
 }
-.s4:hover ~ a {
-    color: gold;
-}
-.s5:hover ~ a {
-    color: gold;
+
+.star-rating__ico:hover:before,
+.star-rating__ico:hover~.star-rating__ico:before,
+.star-rating__input:checked~.star-rating__ico:before {
+    content: "\f005";
 }
 
 h1,h2,h3,h4,h5,h6 {
@@ -158,12 +165,12 @@ a {
 }
 
 .flower-container {
-    margin: 20px 20px 20px 20px;
+    margin: 10px 60px 10px 60px;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    align-content: flex-start;
     align-items: flex-start;
+
 }
 
 .author-comment {
@@ -248,4 +255,16 @@ th, td {
 }
 
 
-
+.shopping-basket {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 10px 10px 10px;
+}
+.shopping-basket > .goods {
+    display: flex;
+    flex-direction: row;
+    align-content: flex-start;
+    width: 100%;
+    border-style: solid;
+    border-width: 1px;
+}

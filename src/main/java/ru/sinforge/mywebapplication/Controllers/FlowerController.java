@@ -69,7 +69,7 @@ public class FlowerController {
         }
         model.addAttribute("flower", flowerService.getFlower(id));
         model.addAttribute("comments", commentService.GetAllCommentsOnFlowerPage(id));
-        model.addAttribute("flowerRating", flowerService.getSummaryRating(id));
+        model.addAttribute("flowerRating", String.format("%.1f", flowerService.getSummaryRating(id)));
         return "flower_page";
     }
 
@@ -124,8 +124,8 @@ public class FlowerController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/review")
-    public String SendReview(@AuthenticationPrincipal User user, String flowerId, short userRating) {
-        flowerService.addReview(user.getId(), flowerId, userRating);
+    public String SendReview(@AuthenticationPrincipal User user, String flowerId, short rating) {
+        flowerService.addReview(user.getId(), flowerId, rating);
         return "redirect:/";
     }
 }
