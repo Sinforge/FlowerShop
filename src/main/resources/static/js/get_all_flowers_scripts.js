@@ -27,22 +27,9 @@ class Flower extends React.Component {
     }
 }
 class FlowerList extends React.Component {
-    initialState = {
-        flowers: [
-        ]
-    }
-    state = this.initialState
-    componentDidMount() {
-        const url = "http://localhost:8080/get-collection-flowers"
-        fetch(url)
-            .then(response => response.json())
-            .then(result => this.setState({flowers: result}))
-            .catch(e => console.log(e))
-
-    }
     render() {
-        console.log(this.state.flowers)
-        const flowerBlocks = this.state.flowers.map((flower)=> {
+        console.log(this.props.data)
+        const flowerBlocks = this.props.data.map((flower)=> {
             return (
                 <Flower flowerInfo={flower} />
             )
@@ -55,8 +42,67 @@ class FlowerList extends React.Component {
             )
     }
 }
+class FlowerSearch extends React.Component {
+    render() {
+        return (
+            <div className="search_params">
+                <div>
+                    <form>
+                            <input type="text" name="FlowerName" onChange={this.props.changeValue}/>
+                            <h2>Price range</h2>
+                            <input type="number" name="min" value="-1"/>
+                            <input type="number" name="max" value="-1" max="100000"/>
+                            <input type="submit" value="Search" />
+                    </form>
+                </div>
+            </div>
 
-    ReactDOM.render(
-        <FlowerList/>,
-        document.getElementById('flower-container')
-    );
+        )
+    }
+}
+class App extends React.Component {
+    initialState = {
+        flowers: [],
+        value: ""
+    }
+    state = this.initialState
+
+    componentDidMount() {
+        const url = "http://localhost:8080/get-collection-flowers"
+        fetch(url)
+            .then(response => response.json())
+            .then(result => this.setState({flowers: result}))
+            .catch(e => console.log(e))
+
+    }
+
+    ChangeValue = (event) => {
+        console.log(event.target.value)
+        this.setState({value: event.target.value})
+    }
+
+
+
+
+    render() {
+        const filteredFlowers = this.state.flowers.filter((flower) => {
+            return flower.name.toLowerCase().includes(this.state.value.toLowerCase())
+        })
+        return (
+            <div className="flower-selection-block">
+                <FlowerSearch changeValue={this.ChangeValue}/>
+                <FlowerList data={filteredFlowers}/>
+            </div>
+        )
+
+
+
+
+    }
+}
+
+
+ReactDOM.render(
+    <App/>,
+    document.getElementById('flower-selection-block')
+)
