@@ -57,6 +57,7 @@ public class FlowerController {
     }
 
 
+
     @GetMapping("/flower")
     public String FlowerPage(@AuthenticationPrincipal User user, @RequestParam(value = "id", required = true) String id, Model model) throws ExecutionException, InterruptedException {
 
@@ -117,9 +118,9 @@ public class FlowerController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/LeaveComment")
-    public String LeaveComment(@AuthenticationPrincipal User user,  CommentViewModel comment) {
+    public Iterable<Comment> LeaveComment(@AuthenticationPrincipal User user, CommentViewModel comment) {
         commentService.AddComment(comment, user.getUsername());
-        return "redirect:/";
+        return commentService.GetAllCommentsOnFlowerPage(comment.getFlowerId());
     }
 
     @PreAuthorize("isAuthenticated()")
@@ -128,4 +129,6 @@ public class FlowerController {
         flowerService.addReview(user.getId(), flowerId, rating);
         return "redirect:/";
     }
+
+
 }

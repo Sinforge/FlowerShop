@@ -3,6 +3,10 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://unpkg.com/react@^16/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@16.13.0/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+    <script type="text/babel" src="/static/js/get_all_flowers_scripts.js"></script>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
@@ -28,7 +32,9 @@
                 </ul>
             </nav>
         </header>
+        <div id="test-div">
 
+        </div>
         <main class="flower-selection-block">
             <div class="search_params">
                 <div>
@@ -41,28 +47,10 @@
                     </form>
                 </div>
             </div>
-            <div class="list-flowers">
-                <div th:each="flower : ${FlowerList}">
-                    <a th:href="@{/flower(id=${flower.id})}" class="flower-url">
+            <div id="flower-container">
 
-                        <!--/*@thymesVar id="FlowerList" type="java.lang.Iterable<ru.sinforge.mywebapplication.Entities.Flower>"*/-->
-                        <div class="list-flowers-item" >
-                            <div class="list-flowers-item-img">
-                                <img th:src="@{'/static/uploads/' + ${flower.getImgName()}}" width="200" height="200">
-                            </div>
-                            <div class="list-flowers-item-info">
-                                <div style="text-align: center">
-                                    <p th:text="${flower.name}" name="name"></p>
-                                </div>
-                                <div style="text-align: center;">
-                                    <p th:text="${flower.price} + '&#8381'" name="price"> </p>
-                                </div>
-                            </div>
-                            <br><br><br>
-                        </div>
-                    </a>
-                </div>
             </div>
+
         </main>
 
 

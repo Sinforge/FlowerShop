@@ -42,7 +42,7 @@
                    <p th:text="${flower.name}" name="name" th:href="@{/flower(id=${flower.id})}"></p>
                </div>
                 <div style="padding: 10px">
-                    <p id="price" th:text="${flower.getPrice()}+ '&#8381'"></p>
+                    <p id="price" th:text="${flower.getPrice()}+ ' &#8381'"></p>
                 </div>
                 <div style="padding: 10px">
                     <button id="minus">-</button>
@@ -63,7 +63,7 @@
     </div>
     <script>
         $(document).ready(function () {
-            let price = $("#price").text().substr(0, 4);
+            let price = $("#price").text().split(' ')[0];
             let result_field = $("#resultPrice");
             let input = $("#goodsCount");
             console.log(price);
@@ -78,7 +78,7 @@
                 result_field.text((input.val() * price)+ "₽");
             });
 
-        })
+        });
     </script>
         
 </main>
