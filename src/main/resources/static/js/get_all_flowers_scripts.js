@@ -50,9 +50,10 @@ class FlowerSearch extends React.Component {
                     <form>
                             <input type="text" name="FlowerName" onChange={this.props.changeValue}/>
                             <h2>Price range</h2>
-                            <input type="number" name="min" value="-1"/>
-                            <input type="number" name="max" value="-1" max="100000"/>
-                            <input type="submit" value="Search" />
+                            <label for="min">Minimal</label>
+                            <input type="number" id="min" name="min" min="0" onChange={this.props.changeMin}/>
+                            <label for="max">Maximum</label>
+                            <input type="number" id="max" name="max" max="100000" onChange={this.props.changeMax}/>
                     </form>
                 </div>
             </div>
@@ -63,7 +64,9 @@ class FlowerSearch extends React.Component {
 class App extends React.Component {
     initialState = {
         flowers: [],
-        value: ""
+        value: "",
+        min: 0,
+        max: 1000000
     }
     state = this.initialState
 
@@ -80,17 +83,24 @@ class App extends React.Component {
         console.log(event.target.value)
         this.setState({value: event.target.value})
     }
+    ChangeMin = (event) => {
+        this.setState({min: event.target.value})
+    }
+    ChangeMax = (event) => {
+        this.setState({max: event.target.value})
+    }
 
 
 
 
     render() {
         const filteredFlowers = this.state.flowers.filter((flower) => {
-            return flower.name.toLowerCase().includes(this.state.value.toLowerCase())
+            return (flower.name.toLowerCase().includes(this.state.value.toLowerCase()) && flower.price >= this.state.min && flower.price <= this.state.max);
+
         })
         return (
             <div className="flower-selection-block">
-                <FlowerSearch changeValue={this.ChangeValue}/>
+                <FlowerSearch changeValue={this.ChangeValue} changeMin={this.ChangeMin} changeMax={this.ChangeMax}/>
                 <FlowerList data={filteredFlowers}/>
             </div>
         )

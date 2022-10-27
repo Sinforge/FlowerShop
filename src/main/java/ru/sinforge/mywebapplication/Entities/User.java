@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -43,7 +44,6 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     private List<FlowerBouquet> flowerBouquets;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
