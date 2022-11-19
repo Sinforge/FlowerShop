@@ -1,6 +1,6 @@
 class Flower extends React.Component {
     render() {
-        const  flowerInfo  = this.props.flowerInfo
+        const  flowerInfo  = this.props.flowerInfo.flower
         console.log(flowerInfo)
         const flowerPageUrl = "/flower?id=" + flowerInfo.id
         const flowerPrice = flowerInfo.price + "₽"
@@ -54,7 +54,11 @@ class FlowerSearch extends React.Component {
                             <input type="number" id="min" name="min" min="0" onChange={this.props.changeMin}/>
                             <label for="max">Maximum</label>
                             <input type="number" id="max" name="max" max="100000" onChange={this.props.changeMax}/>
+
+
                     </form>
+                    <button onClick={this.props.sortUpFunction}>Sort by rating down</button>
+                    <button onClick={this.props.sortDownFunction}>Sort by rating up</button>
                 </div>
             </div>
 
@@ -66,7 +70,9 @@ class App extends React.Component {
         flowers: [],
         value: "",
         min: 0,
-        max: 1000000
+        max: 1000000,
+        sortUpRating: false,
+        sortDownRating: false,
     }
     state = this.initialState
 
@@ -74,7 +80,10 @@ class App extends React.Component {
         const url = "http://localhost:8080/get-collection-flowers"
         fetch(url)
             .then(response => response.json())
-            .then(result => this.setState({flowers: result}))
+            .then(result => {
+                console.log(result);
+                this.setState({flowers: result});
+            })
             .catch(e => console.log(e))
 
     }
@@ -89,18 +98,41 @@ class App extends React.Component {
     ChangeMax = (event) => {
         this.setState({max: event.target.value})
     }
+    SortUp = (event) => {
+        console.log("Im sort up");
+        this.setState({sortUpRating: !this.state.sortUpRating})
+    }
+    SortDown = (event) => {
+        console.log("Im sort down");
+        this.setState({sortDownRating: !this.state.sortDownRating});
+    }
 
 
 
 
     render() {
         const filteredFlowers = this.state.flowers.filter((flower) => {
-            return (flower.name.toLowerCase().includes(this.state.value.toLowerCase()) && flower.price >= this.state.min && flower.price <= this.state.max);
+            return (flower.flower.name.toLowerCase().includes(this.state.value.toLowerCase()) && flower.flower.price >= this.state.min && flower.flower.price <= this.state.max);
 
         })
+        if(this.state.sortUpRating) {
+            filteredFlowers.sort((a, b) => {
+                let aRating = a.rating==="NaN"?0:Number(a.rating);
+                let bRating = b.rating==="NaN"?0:Number(b.rating);
+               return aRating - bRating;
+            });
+        }
+        if(this.state.sortDownRating) {
+            filteredFlowers.sort((a, b) => {
+                let aRating = a.rating==="NaN"?0:Number(a.rating);
+                let bRating = b.rating==="NaN"?0:Number(b.rating);
+                return bRating - aRating;
+            });
+        }
         return (
             <div className="flower-selection-block">
-                <FlowerSearch changeValue={this.ChangeValue} changeMin={this.ChangeMin} changeMax={this.ChangeMax}/>
+                <FlowerSearch changeValue={this.ChangeValue} changeMin={this.ChangeMin} changeMax={this.ChangeMax}
+                              sortUpFunction={this.SortUp} sortDownFunction={this.SortDown}/>
                 <FlowerList data={filteredFlowers}/>
             </div>
         )

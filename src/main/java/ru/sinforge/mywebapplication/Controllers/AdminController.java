@@ -38,7 +38,7 @@ public class AdminController {
             @RequestParam("img") MultipartFile img, Model model) throws ExecutionException, InterruptedException {
         IsAuth(user, model);
         flowerService.createFlower(flower, img);
-        return "redirect:/";
+        return   "redirect:/";
     }
 
 

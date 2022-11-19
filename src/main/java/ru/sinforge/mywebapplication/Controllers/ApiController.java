@@ -7,6 +7,9 @@ import ru.sinforge.mywebapplication.Services.CommentService;
 import ru.sinforge.mywebapplication.Services.FlowerService;
 import ru.sinforge.mywebapplication.Services.UserService;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 @RestController
 public class ApiController {
     private FlowerService flowerService;
@@ -18,9 +21,23 @@ public class ApiController {
         this.flowerService = flowerService;
         this.commentService = commentService;
     }
+    public class FlowerRating {
+        public Flower flower;
+        public Double rating;
+        public FlowerRating(Flower flower, Double rating) {
+            this.flower = flower;
+            this.rating = rating;
+        }
+    }
     @GetMapping("/get-collection-flowers")
-    public Iterable<Flower> getFlowersCollection() {
-        return flowerService.getAllFlowers();
+    public Iterable<FlowerRating> getFlowersCollection() {
+        Iterable<Flower> flowers = flowerService.getAllFlowers();
+        ArrayList<FlowerRating> flowerRatingList = new ArrayList<>();
+        //get rating for all flowers
+        for (Flower flower: flowers) {
+            flowerRatingList.add(new FlowerRating(flower, flowerService.getSummaryRating(flower.getId())));
+        }
+        return flowerRatingList;
 
     }
 }
