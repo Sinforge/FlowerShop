@@ -84,7 +84,7 @@ public class UserService implements UserDetailsService {
         if(userFromDB != null) {
             return false;
         }
-        user.setRoles(Collections.singleton(Role.Administrator));
+        user.setRoles(Collections.singleton(Role.DefaultUser));
         userRepo.save(user);
         return true;
     }

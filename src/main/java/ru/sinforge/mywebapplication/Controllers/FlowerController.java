@@ -116,12 +116,7 @@ public class FlowerController {
     }
 
 
-    @PreAuthorize("isAuthenticated()")
-    @PostMapping("/LeaveComment")
-    public Iterable<Comment> LeaveComment(@AuthenticationPrincipal User user, CommentViewModel comment) {
-        commentService.AddComment(comment, user.getUsername());
-        return commentService.GetAllCommentsOnFlowerPage(comment.getFlowerId());
-    }
+
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/review")

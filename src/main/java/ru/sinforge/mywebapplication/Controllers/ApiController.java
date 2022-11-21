@@ -1,14 +1,18 @@
 package ru.sinforge.mywebapplication.Controllers;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.sinforge.mywebapplication.Entities.Comment;
 import ru.sinforge.mywebapplication.Entities.Flower;
+import ru.sinforge.mywebapplication.Entities.User;
 import ru.sinforge.mywebapplication.Services.CommentService;
 import ru.sinforge.mywebapplication.Services.FlowerService;
 import ru.sinforge.mywebapplication.Services.UserService;
+import ru.sinforge.mywebapplication.ViewModels.CommentViewModel;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -48,12 +52,21 @@ public class ApiController {
         return flowerRatingList;
 
     }
-    @PostMapping("/deleteComment")
-    public String deleteComment(Long commentId, String flowerId, Model model) throws ExecutionException, InterruptedException {
-        commentService.DeleteComment(commentId);
-        model.addAttribute("comments",commentService.GetAllCommentsOnFlowerPage(flowerId));
-        model.addAttribute("flower", flowerService.getFlower(flowerId));
-        return "comments_div";
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/LeaveComment")
+    public Iterable<Comment> LeaveComment(@AuthenticationPrincipal User user, CommentViewModel comment) {
+        commentService.AddComment(comment, user.getUsername());
+        return commentService.GetAllCommentsOnFlowerPage(comment.getFlowerId());
     }
+
+    @PostMapping("/deleteComment")
+    public Iterable<Comment> deleteComment(Long commentId, String flowerId) throws ExecutionException, InterruptedException {
+        commentService.DeleteComment(commentId);
+        return commentService.GetAllCommentsOnFlowerPage(flowerId);
+    }
+
+
+
+
 
 }
