@@ -12,4 +12,21 @@ $(document).ready(function(){
             form.submit();
         });
     });
+    let deleteButtons = $(".delete-user-comment");
+    deleteButtons.each((i, element)=> {
+       let button = $(element);
+       let name = "#" + "form-" + button.name;
+        console.log($(name).serialize());
+        button.on("click", function () {
+          $.ajax({
+             url: "/deleteComment",
+              type: "POST",
+              data: $(name).serialize(),
+              success: (response) => {
+                  console.log(response);
+                  $(".list-comments").html(response);
+              }
+          });
+       });
+    });
 });

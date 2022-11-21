@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.sinforge.mywebapplication.Entities.Flower;
 import ru.sinforge.mywebapplication.Entities.Role;
 import ru.sinforge.mywebapplication.Entities.User;
+import ru.sinforge.mywebapplication.Services.CommentService;
 import ru.sinforge.mywebapplication.Services.FlowerService;
 import ru.sinforge.mywebapplication.Services.UserService;
 import java.util.Set;
@@ -17,11 +18,13 @@ import java.util.concurrent.ExecutionException;
 public class AdminController {
     private FlowerService flowerService;
     private UserService userService;
+    private CommentService commentService;
 
 
-    public AdminController(FlowerService flowerService, UserService userService) {
+    public AdminController(FlowerService flowerService, UserService userService, CommentService commentService) {
         this.userService = userService;
         this.flowerService = flowerService;
+        this.commentService = commentService;
     }
 
     @PreAuthorize("hasAnyAuthority({'Administrator', 'Moderator'})")
@@ -65,6 +68,7 @@ public class AdminController {
     }
 
 
+
     @PreAuthorize("hasAuthority('Administrator')")
     @GetMapping("/userlist")
     public String getUserList(Model model) {
@@ -104,6 +108,7 @@ public class AdminController {
         userService.ChangeUserRoles(roles, id);
         return "redirect:/userlist";
     }
+
 
 
 

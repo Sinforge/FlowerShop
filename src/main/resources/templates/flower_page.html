@@ -110,10 +110,15 @@
 
 
         <h4>All comments</h4>
-        <div th:each="comment : ${comments}">
+        <div id="list-comments" th:each="comment : ${comments}">
             <div class="author-comment">
                 <div class="inline-author">
                     <img src="/static/img/DefaultUserImg.png" width="100px" height="100px" alt="user_img"/>
+                    <form th:id="'form-' + ${comment.getId()}" method="post" action="/deleteComment">
+                        <input th:value="${comment.getId()}" name="commentId"  hidden>
+                        <input th:value="${flower.getId()}" name="flowerId" hidden>
+                        <input type="submit"  th:name="${comment.getId()}" value="Delete">
+                    </form>
                     <p th:text="${comment.getUsername}"></p><br>
                 </div>
                 <p th:text="${comment.getText}"></p>

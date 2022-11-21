@@ -115,17 +115,20 @@ class App extends React.Component {
             return (flower.flower.name.toLowerCase().includes(this.state.value.toLowerCase()) && flower.flower.price >= this.state.min && flower.flower.price <= this.state.max);
 
         })
+        for (let i= 0 ; i<filteredFlowers.length;i++) {
+            console.log(filteredFlowers[i] === 'NaN', filteredFlowers[i]);
+        }
         if(this.state.sortUpRating) {
             filteredFlowers.sort((a, b) => {
-                let aRating = a.rating==="NaN"?0:Number(a.rating);
-                let bRating = b.rating==="NaN"?0:Number(b.rating);
+                let aRating = Number.isNaN(a.rating)?0:Number(a.rating);
+                let bRating = Number.isNaN(b.rating)?0:Number(b.rating);
                return aRating - bRating;
             });
         }
         if(this.state.sortDownRating) {
             filteredFlowers.sort((a, b) => {
-                let aRating = a.rating==="NaN"?0:Number(a.rating);
-                let bRating = b.rating==="NaN"?0:Number(b.rating);
+                let aRating = Number.isNaN(a.rating)?0:Number(a.rating);
+                let bRating = Number.isNaN(b.rating)?0:Number(b.rating);
                 return bRating - aRating;
             });
         }

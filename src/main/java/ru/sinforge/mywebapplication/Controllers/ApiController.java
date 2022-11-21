@@ -1,6 +1,9 @@
 package ru.sinforge.mywebapplication.Controllers;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.sinforge.mywebapplication.Entities.Flower;
 import ru.sinforge.mywebapplication.Services.CommentService;
@@ -9,6 +12,7 @@ import ru.sinforge.mywebapplication.Services.UserService;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 public class ApiController {
@@ -35,9 +39,21 @@ public class ApiController {
         ArrayList<FlowerRating> flowerRatingList = new ArrayList<>();
         //get rating for all flowers
         for (Flower flower: flowers) {
-            flowerRatingList.add(new FlowerRating(flower, flowerService.getSummaryRating(flower.getId())));
+            Double rating = flowerService.getSummaryRating(flower.getId());
+            if (rating.isNaN()) {
+                rating = 0.0;
+            }
+            flowerRatingList.add(new FlowerRating(flower, rating    ));
         }
         return flowerRatingList;
 
     }
+    @PostMapping("/deleteComment")
+    public String deleteComment(Long commentId, String flowerId, Model model) throws ExecutionException, InterruptedException {
+        commentService.DeleteComment(commentId);
+        model.addAttribute("comments",commentService.GetAllCommentsOnFlowerPage(flowerId));
+        model.addAttribute("flower", flowerService.getFlower(flowerId));
+        return "comments_div";
+    }
+
 }
