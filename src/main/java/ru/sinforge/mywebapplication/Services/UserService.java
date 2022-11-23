@@ -131,6 +131,9 @@ public class UserService implements UserDetailsService {
         userFromDB.setPassword(userFromDB.getPassword());
         userRepo.save(userFromDB);
     }
+    public User getUserByName(String name) {
+        return userRepo.findByUsername(name);
+    }
 
 
     @Override

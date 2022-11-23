@@ -69,7 +69,13 @@ public class FlowerController {
 
         }
         model.addAttribute("flower", flowerService.getFlower(id));
-        model.addAttribute("comments", commentService.GetAllCommentsOnFlowerPage(id));
+        Iterable<Comment> comments =  commentService.GetAllCommentsOnFlowerPage(id);
+        model.addAttribute("comments", comments);
+        ArrayList<String> imgs = new ArrayList<>();
+        for(Comment comment : comments) {
+            imgs.add(userService.getUserByName(comment.getUsername()).getPath());
+        }
+        model.addAttribute("imgs", imgs);
         model.addAttribute("flowerRating", String.format("%.1f", flowerService.getSummaryRating(id)));
         model.addAttribute("user", user);
         return "flower_page";
