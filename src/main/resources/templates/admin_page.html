@@ -29,41 +29,83 @@
         </ul>
     </nav>
 </header>
+<main>
     <div style="display: flex; flex-direction: row; justify-content: center; justify-items: center " class="b-container">
         <table>
             <caption>User list </caption>
             <thead>
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Roles</th>
-                    <th scope="col">Delete</th>
-                    <th scope="col">Change Roles</th>
-                </tr>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col">Roles</th>
+                <th scope="col">Delete</th>
+                <th scope="col">Change Roles</th>
+            </tr>
             </thead>
             <tbody>
-                <tr th:each="user : ${UserList}">
-                    <td th:text="${user.getId()}"></td>
-                    <td th:text="${user.getUsername()}"></td>
-                    <td th:text="${user.getRoles.toString()}" th:id="${user.getId()}"></td>
-                    <td>
-                        <form method="post" action="/delete_user">
-                            <input hidden type="number" name="id" th:value="${user.getId()}">
-                            <input type="submit" value="Delete">
-                        </form>
-                    </td>
-                    <td>
-                        <form method="get" action="/change_user_roles">
-                            <input hidden type="number" name="id" th:value="${user.getId()}">
-                            <input type="submit" value="Change roles">
-                        </form>
+            <tr th:each="user,iterStat : ${UserList}">
+                <td th:text="${user.getId()}"></td>
+                <td th:text="${user.getUsername()}"></td>
+                <td th:text="${user.getRoles.toString()}" th:id="${user.getId()}"></td>
+                <td>
+                    <form method="post" action="/delete_user">
+                        <input hidden type="number" name="id" th:value="${user.getId()}">
+                        <input type="submit" value="Delete">
+                    </form>
+                </td>
+                <td>
+                    <button th:value="${RolesCode[iterStat.index]} +${' ' + user.getUsername()}" th:name="${user.getId()}" class="changeRoles">Change roles</button>
 
 
-                    </td>
-                </tr>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>
+</main>
+
+<div id="hidden-window" style="display:none; position: absolute; top: 30%; left: 40%; border-style: solid">
+    <button class="form-button" id="closeWindow">Close window</button>
+    <h2 id="header">Change</h2>
+    <form action="/change_user_roles" method="post">
+        <input hidden name="id" id="UserIdInput" value="" />
+        <div class="form-group">
+            <label><input type="checkbox" id="role1" name="roles[]" value="Administrator"/>Admin</label><br/>
+            <label><input type="checkbox" id="role2" name="roles[]" value="DefaultUser"/>DefaultUser</label><br/>
+            <label><input type="checkbox" id="role3" name="roles[]" value="Moderator"/>Moderator</label><br/>
+        </div>
+        <button  type="submit" class="form-button">Save</button>
+    </form>
+</div>
+<script>
+    let buttonEditRoles = document.querySelectorAll(".changeRoles");
+    var roleInputs = document.querySelectorAll(".form-group input");
+    var windowBlock = document.getElementById("hidden-window");
+    var userIdField = document.getElementById("UserIdInput");
+    console.log(userIdField);
+    for (let i = 0; i < buttonEditRoles.length; i++) {
+        buttonEditRoles[i].addEventListener("click",
+            () => {
+                document.getElementById("header").innerHTML = "Change " + buttonEditRoles[i].value.slice(4) + " roles";
+                console.log(buttonEditRoles[i].name);
+                userIdField.value = buttonEditRoles[i].name;
+                console.log(userIdField.value);
+                roleInputs[0].checked = buttonEditRoles[i].value[0] === "1";
+                roleInputs[1].checked = buttonEditRoles[i].value[1] === "1";
+                roleInputs[2].checked = buttonEditRoles[i].value[2] === "1";
+                ShowWindow();
+            });
+    }
+    document.getElementById("closeWindow").addEventListener("click", CloseWindow);
+    function ShowWindow() {
+        windowBlock.style.display = "block";
+        document.querySelector("main").style.filter = "blur(10px)";
+    }
+    function CloseWindow() {
+        windowBlock.style.display = "none";
+        document.querySelector("main").style.filter = "none";
+    }
+</script>
 
 
         <!--     </div>

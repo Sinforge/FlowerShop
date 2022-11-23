@@ -11,6 +11,8 @@ import ru.sinforge.mywebapplication.Entities.User;
 import ru.sinforge.mywebapplication.Services.CommentService;
 import ru.sinforge.mywebapplication.Services.FlowerService;
 import ru.sinforge.mywebapplication.Services.UserService;
+
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
@@ -73,6 +75,33 @@ public class AdminController {
     @GetMapping("/userlist")
     public String getUserList(Model model) {
             model.addAttribute("UserList", userService.GetUserList());
+            String Roles;
+            ArrayList<String> RolesCode = new ArrayList<>();
+            for (User user: userService.GetUserList()) {
+                Roles = "";
+                Set<Role> roles = user.getRoles();
+                if(roles.contains(Role.Administrator)) {
+                    Roles += "1";
+                }
+                else {
+                    Roles += "0";
+                }
+                if(roles.contains(Role.DefaultUser)) {
+                    Roles += "1";
+                }
+                else {
+                    Roles += "0";
+                }
+                if(roles.contains(Role.Moderator)) {
+                    Roles += "1";
+                }
+                else {
+                    Roles += "0";
+                }
+                RolesCode.add(Roles);
+
+            }
+            model.addAttribute("RolesCode", RolesCode);
             return "admin_page";
     }
 
@@ -81,25 +110,6 @@ public class AdminController {
     public String DeleteUser(Long id) {
         userService.DeleteUserById(id);
         return "redirect:/userlist";
-    }
-
-    @PreAuthorize("hasAuthority('Administrator')")
-    @GetMapping("/change_user_roles")
-    public String ChangeUserRoles(Model model, Long id) {
-        User user = userService.GetUserById(id);
-        Set<Role> roles = user.getRoles();
-        Boolean[] HasRoles = new Boolean[3];
-        for (Role role: roles) {
-            HasRoles[0]= role == Role.Administrator;
-            HasRoles[1] = role == Role.DefaultUser;
-            HasRoles[2] = role == Role.Moderator;
-        }
-        model.addAttribute("userId", user.getId());
-        model.addAttribute("userRoles", HasRoles);
-
-
-
-        return "change_roles";
     }
 
     @PreAuthorize("hasAuthority('Administrator')")
