@@ -2,9 +2,14 @@ package ru.sinforge.mywebapplication.Controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import ru.sinforge.mywebapplication.Entities.User;
 import ru.sinforge.mywebapplication.Services.UserService;
 import ru.sinforge.mywebapplication.ViewModels.UserViewModel;
 
@@ -31,6 +36,18 @@ public class AccountController {
         }
         logger.info("New user successful added");
         return "login";
+    }
+
+    @GetMapping("/profile")
+    public String Profile(@AuthenticationPrincipal User user, Model model) {
+        model.addAttribute("user", user);
+        return "profile";
+    }
+
+    @PostMapping("/profile")
+    public String Profile(Long id, UserViewModel user, @RequestParam("img") MultipartFile img) {
+        userService.changeData(id, user, img);
+        return "redirect:/profile";
     }
 
 }

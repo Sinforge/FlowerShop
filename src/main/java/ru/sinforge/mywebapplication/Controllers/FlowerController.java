@@ -71,6 +71,7 @@ public class FlowerController {
         model.addAttribute("flower", flowerService.getFlower(id));
         model.addAttribute("comments", commentService.GetAllCommentsOnFlowerPage(id));
         model.addAttribute("flowerRating", String.format("%.1f", flowerService.getSummaryRating(id)));
+        model.addAttribute("user", user);
         return "flower_page";
     }
 

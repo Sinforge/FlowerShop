@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/static/css/style.css">
+  <title>Title</title>
+</head>
+<body>
+<header>
+  <nav >
+
+    <ul class="nav_bar">
+      <li class="nav-bar-element"><strong>Flower Shop</strong></li>
+      <li class="nav-bar-element"><a href="/">Home</a></li>
+      <li sec:authorize="isAnonymous()" class="nav-bar-element"><a href="/login">Log-in</a></li>
+      <li sec:authorize="isAnonymous()" class="nav-bar-element"><a href="/registration">Registration</a></li>
+      <li sec:authorize="isAuthenticated()" class="nav-bar-element"><a href="/basket"><img src='/static/img/shoppingbasket.png' width="30" height="30" ></a></li>
+      <li sec:authorize="isAuthenticated()" class="nav-bar-element">
+        <form th:action="@{/logout}" method="post">
+          <input type="hidden" name="_csrf" value=" {{_csrf.token}}">
+          <input type="submit" value="Sign Out" class="c-button submit service"/>
+        </form>
+      </li>
+      <li sec:authorize="hasAnyAuthority('Administrator', 'Moderator')" style="border-bottom: solid" class="nav-bar-element"><a href="/create">Создать цветок</a></li>
+      <li sec:authorize="hasAuthority('Administrator')" class="nav-bar-element"><a href="/userlist">Список пользователей</a></li>
+
+    </ul>
+  </nav>
+</header>
+<main class="justify-content-xxl-center">
+  <div class="form-container">
+    <form method="post" enctype="multipart/form-data">
+      <h1 align="center">Your profile</h1>
+      <input name="id" th:value="${user.getId()}" hidden>
+      <div class="text-field">
+        <label for="username">UserName</label>
+        <input type="text" name="username" th:value="${user.getUsername()}">
+      </div>
+      <div class="text-field">
+        <label for="password">Password</label>
+        <input type="text" name="password" th:value="${user.getPassword()}">
+      </div>
+      <div class="text-field">
+        <label for="imgAvatar">Your Img</label>
+        <div>
+          <img  th:src="${user.getPath()}?'/static/uploads/users/'+ ${user.getPath()} : '/static/img/DefaultUserImg.png'" width="100px" height="100px">
+        </div>
+      </div>
+      <div>
+        <label for="img">Image</label>
+        <input type="file" name="img">
+      </div>
+
+      <div style="text-align: center">
+        <input type="submit" value="Change">
+      </div>
+
+    </form>
+  </div>
+
+</main>
+
+</body>
+</html>

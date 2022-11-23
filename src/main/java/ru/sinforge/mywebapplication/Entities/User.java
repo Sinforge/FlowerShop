@@ -26,6 +26,10 @@ public class User implements UserDetails {
 
     @Getter
     @Setter
+    private String path;
+
+    @Getter
+    @Setter
     private String username;
 
 

@@ -1,25 +1,39 @@
 package ru.sinforge.mywebapplication.Services;
 
+import com.google.cloud.firestore.Firestore;
+import com.google.firebase.cloud.FirestoreClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import ru.sinforge.mywebapplication.Entities.Flower;
 import ru.sinforge.mywebapplication.Entities.FlowerBouquet;
 import ru.sinforge.mywebapplication.Entities.Role;
 import ru.sinforge.mywebapplication.Entities.User;
 import ru.sinforge.mywebapplication.Repositories.BasketRepo;
 import ru.sinforge.mywebapplication.Repositories.UserRepo;
+import ru.sinforge.mywebapplication.ViewModels.UserViewModel;
 
 import javax.transaction.Transactional;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 public class UserService implements UserDetailsService {
     private FlowerService flowerService;
-    private UserRepo userRepo;
-    private BasketRepo basketRepo;
+    private final UserRepo userRepo;
+    private final BasketRepo basketRepo;
+
+    @Value("${upload.path.user}")
+    private String uploadPath;
 
     public UserService(FlowerService flowerService, UserRepo userRepo, BasketRepo basketRepo) {
         this.flowerService = flowerService;
@@ -87,6 +101,35 @@ public class UserService implements UserDetailsService {
         user.setRoles(Collections.singleton(Role.DefaultUser));
         userRepo.save(user);
         return true;
+    }
+
+    public void changeData(Long id, UserViewModel user, MultipartFile img) {
+        User userFromDB = userRepo.findById(id).get();
+        if (userFromDB == null) {
+            return;
+        }
+        if(!img.isEmpty()) {
+            try {
+                File uploadDir = new File(uploadPath);
+                if(!uploadDir.exists()) {
+                    uploadDir.mkdir();
+                }
+                String ImgName = id + "." + img.getOriginalFilename().split("\\.")[1];
+                Path pathImg = Path.of(uploadPath + "/" + ImgName);
+                if(Files.exists(pathImg)) {
+                    Files.delete(pathImg);
+                }
+                img.transferTo(new File(uploadPath + "/"+ ImgName));
+                userFromDB.setPath(ImgName);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if(userRepo.findByUsername(user.getUsername()) == null) {
+            userFromDB.setUsername(user.getUsername());
+        }
+        userFromDB.setPassword(userFromDB.getPassword());
+        userRepo.save(userFromDB);
     }
 
 
