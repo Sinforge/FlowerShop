@@ -187,7 +187,7 @@ a {
     flex-wrap: wrap;
 }
 
-input[type=submit] {
+input[type=submit],button {
     font-family: SignikaNegative-Regular, serif;
     font-size: 15px;
     border-radius: 5px;
@@ -210,7 +210,7 @@ input[type=submit] {
     width: 100%;
     overflow: hidden;
 }
-.form-container input[type="text"], .form-container input[type="password"], .form-container input[type="number"] {
+.form-container input[type="text"], .form-container input[type="password"],.form-container input[type="number"], .input-data {
     font-family: SignikaNegative-Regular, serif;
     padding: 10px 5px 10px 5px;
     display: block;
@@ -218,7 +218,7 @@ input[type=submit] {
 
     margin-right: 0;
 }
-.form-container label {
+label {
     font-family: SignikaNegative-Regular, serif;
     font-size: 20px;
     margin-bottom: 5px;

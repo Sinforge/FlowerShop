@@ -48,16 +48,24 @@ class FlowerSearch extends React.Component {
             <div className="search_params">
                 <div>
                     <form>
-                            <input type="text" name="FlowerName" onChange={this.props.changeValue}/>
-                            <h2>Price range</h2>
-                            <label for="min">Minimal</label>
-                            <input type="number" id="min" name="min" min="0" onChange={this.props.changeMin}/>
-                            <label for="max">Maximum</label>
-                            <input type="number" id="max" name="max" max="100000" onChange={this.props.changeMax}/>
+                        <div class="text-field">
+                            <label for="FlowerName">Search</label>
+                            <input class="input-data"  type="text" name="FlowerName" onChange={this.props.changeValue}/>
+                        </div>
+                        <div class="text-field">
+                            <label htmlFor="min">Minimal</label>
+                            <input class="input-data"  type="number" id="min" name="min" min="0" onChange={this.props.changeMin}/>
+                        </div>
+                        <div className="text-field">
+                            <label htmlFor="max">Maximum</label>
+                            <input class="input-data"  type="number" id="max" name="max" max="100000" onChange={this.props.changeMax}/>
+                        </div>
+
+
 
 
                     </form>
-                    <button onClick={this.props.sortUpFunction}>Sort by rating down</button>
+                    <button class onClick={this.props.sortUpFunction}>Sort by rating down</button>
                     <button onClick={this.props.sortDownFunction}>Sort by rating up</button>
                 </div>
             </div>

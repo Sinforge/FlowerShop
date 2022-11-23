@@ -89,9 +89,9 @@
         <div sec:authorize="hasAnyAuthority('Moderator', 'Administrator')">
             <form th:method="post" action="/update">
                 <p><input type="text" name="id" th:value="${flower.getId()}" hidden> </p>
-                <p>Name:<input type="text" name="name" th:value="${flower.name}"></p>
-                <p>Description<input type="text" name="description" th:value="${flower.description}"></p>
-                <p>Price <input type="number" name="price" th:value="${flower.price}"></p>
+                <p>Name:<input class="input-data" type="text" name="name" th:value="${flower.name}"></p>
+                <p>Description<input  class="input-data"  type="text" name="description" th:value="${flower.description}"></p>
+                <p>Price <input class="input-data"  type="number" name="price" th:value="${flower.price}"></p>
                 <input type="submit" value="Update">
             </form>
 
