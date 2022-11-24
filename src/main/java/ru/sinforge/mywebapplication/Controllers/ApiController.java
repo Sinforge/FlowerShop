@@ -60,7 +60,7 @@ public class ApiController {
     }
 
     @PostMapping("/deleteComment")
-    public Iterable<Comment> deleteComment(Long commentId, String flowerId) throws ExecutionException, InterruptedException {
+    public Iterable<Comment> deleteComment(Long commentId, Long flowerId) throws ExecutionException, InterruptedException {
         commentService.DeleteComment(commentId);
         return commentService.GetAllCommentsOnFlowerPage(flowerId);
     }

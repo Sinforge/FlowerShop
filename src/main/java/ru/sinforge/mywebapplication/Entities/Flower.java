@@ -1,12 +1,36 @@
 package ru.sinforge.mywebapplication.Entities;
 
 
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Flower {
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Getter
+    @Setter
+    private Long id;
+
+    @Getter
+    @Setter
     private String name;
+
+    @Getter
+    @Setter
     private String description;
+
+    @Getter
+    @Setter
     private Integer price;
+
+    @Getter
+    @Setter
     private String imgname;
 
 
@@ -20,43 +44,4 @@ public class Flower {
     }
 
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getImgName() {
-        return imgname;
-    }
-
-    public void setImgName(String imgname) {
-        this.imgname = imgname;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 }

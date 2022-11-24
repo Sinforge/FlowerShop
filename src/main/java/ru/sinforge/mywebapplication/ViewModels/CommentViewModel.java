@@ -7,7 +7,7 @@ public class CommentViewModel {
 
     @Getter
     @Setter
-    private String FlowerId;
+    private Long FlowerId;
 
 
     @Getter

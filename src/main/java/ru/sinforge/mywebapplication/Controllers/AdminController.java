@@ -47,26 +47,23 @@ public class AdminController {
     }
 
 
-    public String getFlower(String flower_id) throws ExecutionException, InterruptedException {
+    public String getFlower(Long flower_id) throws ExecutionException, InterruptedException {
         return flowerService.getFlower(flower_id).toString();
+    }
+
+    @PreAuthorize("hasAnyAuthority({'Administrator', 'Moderator'})")
+    @PostMapping("/delete")
+    public String deleteFlower(Long flower_id) {
+        flowerService.deleteFlower(flower_id);
+        return "redirect:/";
     }
 
 
     @PreAuthorize("hasAnyAuthority({'Administrator', 'Moderator'})")
     @PostMapping("/update")
     public String updateFlower(Flower flower) {
-        if (flowerService.updateFlower(flower)) {
-            return "get_all_flowers";
-        }
-
-        return "exception-page";
-    }
-
-    @PreAuthorize("hasAnyAuthority({'Administrator', 'Moderator'})")
-    @PostMapping("/delete")
-    public String deleteFlower(@RequestBody String flower_id) {
-        flowerService.deleteFlower(flower_id);
-        return "redirect:/";
+        flowerService.updateFlower(flower);
+        return "get_all_flowers";
     }
 
 
@@ -111,6 +108,9 @@ public class AdminController {
         userService.DeleteUserById(id);
         return "redirect:/userlist";
     }
+
+
+
 
     @PreAuthorize("hasAuthority('Administrator')")
     @PostMapping("/change_user_roles")

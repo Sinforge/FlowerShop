@@ -4,7 +4,7 @@ class Flower extends React.Component {
         console.log(flowerInfo)
         const flowerPageUrl = "/flower?id=" + flowerInfo.id
         const flowerPrice = flowerInfo.price + "₽"
-        const flowerImgPath = "/static/uploads/" + flowerInfo.imgName;
+        const flowerImgPath = "/static/uploads/" + flowerInfo.imgname;
         return(
             <a href={flowerPageUrl} className="flower-url">
                 <div className="list-flowers-item">

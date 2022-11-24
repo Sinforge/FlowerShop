@@ -6,6 +6,6 @@ import ru.sinforge.mywebapplication.Entities.Rating;
 import java.util.ArrayList;
 
 public interface ReviewRepo extends JpaRepository<Rating, Long> {
-    ArrayList<Rating> findAllByFlowerid(String flowerid);
-    Rating findByFloweridAndUserid(String flowerid, Long userid);
+    ArrayList<Rating> findAllByFlowerid(Long flowerid);
+    Rating findByFloweridAndUserid(Long flowerid, Long userid);
 }

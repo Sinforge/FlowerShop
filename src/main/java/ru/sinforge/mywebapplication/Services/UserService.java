@@ -53,7 +53,7 @@ public class UserService implements UserDetailsService {
         return basketRepo.findByUserId(user.getId());
     }
 
-    public void AddBouquet(User user, String FlowerId) {
+    public void AddBouquet(User user, Long FlowerId) {
         FlowerBouquet flowerBouquet = new FlowerBouquet();
         flowerBouquet.setFlowerId(FlowerId);
         flowerBouquet.setUser(user);

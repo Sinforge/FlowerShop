@@ -21,7 +21,7 @@ public class Comment {
 
     @Getter
     @Setter
-    private String flowerid;
+    private Long flowerid;
 
     @Getter
     @Setter

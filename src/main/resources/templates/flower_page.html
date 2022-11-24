@@ -39,7 +39,7 @@
 
         <div class="list-flowers-item-img">
             <div>
-                <img th:src="@{'/static/uploads/' + ${flower.getImgName()}}" width="300px" height="300px">
+                <img th:src="@{'/static/uploads/' + ${flower.getImgname()}}" width="300px" height="300px">
             </div>
             <form action="/review" method="post" id="change-rating-form" sec:authorize="isAuthenticated()">
                 <div class="star-rating">
@@ -78,14 +78,14 @@
 
             </div>
         </div>
-
         <div sec:authorize="hasAnyAuthority('Moderator', 'Administrator')">
-            <form th:method="post" action="/delete">
-                <input type="text" name="FlowerId" th:value="${flower.getId()}" hidden>
+            <form method="post" action="/delete">
+                <input type="number" name="flower_id" th:value="${flower.getId()}" hidden>
                 <input type="submit" value="Удалить цветок">
             </form>
 
         </div>
+
         <div sec:authorize="hasAnyAuthority('Moderator', 'Administrator')">
             <form th:method="post" action="/update">
                 <p><input type="text" name="id" th:value="${flower.getId()}" hidden> </p>

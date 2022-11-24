@@ -30,7 +30,7 @@ public class CommentService {
         commentRepo.delete((commentRepo.findById(commentId).orElse(null)));
     }
 
-    public Iterable<Comment> GetAllCommentsOnFlowerPage(String FlowerId) {
+    public Iterable<Comment> GetAllCommentsOnFlowerPage(Long FlowerId) {
         return  commentRepo.findAllByFlowerid(FlowerId);
     }
 }

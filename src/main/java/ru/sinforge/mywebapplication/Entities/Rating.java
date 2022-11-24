@@ -22,7 +22,7 @@ public class Rating {
 
     @Getter
     @Setter
-    private String flowerid;
+    private Long flowerid;
 
 
     @Getter

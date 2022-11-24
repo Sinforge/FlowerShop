@@ -8,7 +8,7 @@ import ru.sinforge.mywebapplication.Entities.User;
 
 @Repository
 public interface CommentRepo extends JpaRepository<Comment, Long> {
-    Comment findCommentByFlowerid(String flowerid);
-    Iterable<Comment> findAllByFlowerid(String flowerid);
+    Comment findCommentByFlowerid(Long flowerid);
+    Iterable<Comment> findAllByFlowerid(Long flowerid);
 
 }

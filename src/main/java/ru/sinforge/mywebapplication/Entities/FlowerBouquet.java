@@ -5,7 +5,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Objects;
-import java.util.concurrent.Flow;
 
 @Entity
 public class FlowerBouquet {
@@ -13,8 +12,8 @@ public class FlowerBouquet {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Getter
     @Setter
-    private long id;
-    private String flowerId;
+    private Long id;
+    private Long flowerId;
     private int flowerAmount;
 
 
@@ -24,11 +23,11 @@ public class FlowerBouquet {
     @Setter
     private User user;
 
-    public String getFlowerId() {
+    public Long getFlowerId() {
         return flowerId;
     }
 
-    public void setFlowerId(String flowerId) {
+    public void setFlowerId(Long flowerId) {
         this.flowerId = flowerId;
     }
 

@@ -75,6 +75,5 @@ $(document).ready(function(){
             '<p>' + dataMassive[dataMassive.length-1].text +
             '</p>' + '</div>';
         listComments.append(template);
-
     }
 });

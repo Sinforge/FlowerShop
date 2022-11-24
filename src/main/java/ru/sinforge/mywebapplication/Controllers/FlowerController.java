@@ -36,21 +36,13 @@ public class FlowerController {
         this.commentService = commentService;
     }
 
-    public String getFlower(String flower_id) throws ExecutionException, InterruptedException {
+    public String getFlower(Long flower_id) throws ExecutionException, InterruptedException {
         return flowerService.getFlower(flower_id).toString();
     }
 
-    public void IsAuth(User user, Model model) {
-        if(user == null) {
-            model.addAttribute("user", "NotAuth");
-            return;
-        }
-        model.addAttribute("user", "Auth");
-    }
 
     @GetMapping({"/", "/home"})
     public String getAllFlowers(@AuthenticationPrincipal User user, Model model) {
-        IsAuth(user, model);
         Iterable<Flower> flowers = flowerService.getAllFlowers();
         model.addAttribute("FlowerList", flowers);
         return "get_all_flowers";
@@ -59,7 +51,7 @@ public class FlowerController {
 
 
     @GetMapping("/flower")
-    public String FlowerPage(@AuthenticationPrincipal User user, @RequestParam(value = "id", required = true) String id, Model model) throws ExecutionException, InterruptedException {
+    public String FlowerPage(@AuthenticationPrincipal User user, @RequestParam(value = "id", required = true) Long id, Model model) throws ExecutionException, InterruptedException {
 
         if(user != null) {
             model.addAttribute("FlowerInBasket", StreamSupport.stream(
@@ -83,29 +75,12 @@ public class FlowerController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/AddToBasket")
-    public String AddToBasket(@AuthenticationPrincipal User user, String FlowerId) {
+    public String AddToBasket(@AuthenticationPrincipal User user, Long FlowerId) {
         userService.AddBouquet(user, FlowerId);
         return "redirect:/";
 
     }
 
-    @PostMapping("/search")
-    public String SearchFlower(String FlowerName, int min, int max, Model model) {
-        if(FlowerName != "" && min != -1 && max != -1 && min < max) {
-            Iterable<Flower> foundedByNameFlowers = flowerService.getFlowerBySearch(FlowerName);
-            model.addAttribute("FlowerList", flowerService.SortFlowerByPrice(min, max, foundedByNameFlowers));
-        }
-        else if(FlowerName == "" && min != -1 && max != -1 && min < max) {
-            model.addAttribute("FlowerList", flowerService.SortFlowerByPrice(min, max, flowerService.getAllFlowers()));
-        }
-        else if (FlowerName != "") {
-            model.addAttribute("FlowerList", flowerService.getFlowerBySearch(FlowerName));
-        }
-
-        return "get_all_flowers";
-
-
-    }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/basket")
@@ -127,7 +102,7 @@ public class FlowerController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/review")
-    public String SendReview(@AuthenticationPrincipal User user, String flowerId, short rating) {
+    public String SendReview(@AuthenticationPrincipal User user, Long flowerId, short rating) {
         flowerService.addReview(user.getId(), flowerId, rating);
         return "redirect:/";
     }
