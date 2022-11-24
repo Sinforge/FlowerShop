@@ -55,7 +55,7 @@ public class ApiController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/LeaveComment")
     public Iterable<Comment> LeaveComment(@AuthenticationPrincipal User user, CommentViewModel comment) {
-        commentService.AddComment(comment, user.getUsername());
+        commentService.AddComment(comment, user.getUsername(), user.getId());
         return commentService.GetAllCommentsOnFlowerPage(comment.getFlowerId());
     }
 
@@ -64,6 +64,7 @@ public class ApiController {
         commentService.DeleteComment(commentId);
         return commentService.GetAllCommentsOnFlowerPage(flowerId);
     }
+
 
 
 

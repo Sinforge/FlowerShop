@@ -25,6 +25,10 @@ public class Comment {
 
     @Getter
     @Setter
+    private Long userid;
+
+    @Getter
+    @Setter
     private String text;
 
 }

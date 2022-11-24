@@ -103,7 +103,7 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
-    public void changeData(Long id, UserViewModel user, MultipartFile img) {
+    public void changeData(Long id, UserViewModel user, String description, MultipartFile img) {
         User userFromDB = userRepo.findById(id).get();
         if (userFromDB == null) {
             return;
@@ -128,7 +128,8 @@ public class UserService implements UserDetailsService {
         if(userRepo.findByUsername(user.getUsername()) == null) {
             userFromDB.setUsername(user.getUsername());
         }
-        userFromDB.setPassword(userFromDB.getPassword());
+        userFromDB.setPassword(user.getPassword());
+        userFromDB.setDescription(description);
         userRepo.save(userFromDB);
     }
     public User getUserByName(String name) {

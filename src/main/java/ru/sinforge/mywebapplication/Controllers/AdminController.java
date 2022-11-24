@@ -41,7 +41,6 @@ public class AdminController {
     public String createFlower(
             @AuthenticationPrincipal User user, Flower flower,
             @RequestParam("img") MultipartFile img, Model model) throws ExecutionException, InterruptedException {
-        IsAuth(user, model);
         flowerService.createFlower(flower, img);
         return   "redirect:/";
     }
@@ -127,18 +126,6 @@ public class AdminController {
 
 
 
-    //@GetMapping("/basket")
-  //  public String ShoppingBasket(@AuthenticationPrincipal User user, Model model) {
-
-//    }
-
-    public void IsAuth(User user, Model model) {
-        if(user == null) {
-            model.addAttribute("user", "NotAuth");
-            return;
-        }
-        model.addAttribute("user", "Auth");
-    }
 
 }
 

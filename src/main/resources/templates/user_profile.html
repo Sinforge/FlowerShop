@@ -28,41 +28,19 @@
     </ul>
   </nav>
 </header>
-<main class="justify-content-xxl-center">
-  <div class="form-container">
-    <form method="post" enctype="multipart/form-data">
-      <h1 align="center">Your profile</h1>
-      <input name="id" th:value="${user.getId()}" hidden>
-      <div class="text-field">
-        <label for="username">UserName</label>
-        <input type="text" name="username" th:value="${user.getUsername()}">
-      </div>
-
-      <div class="text-field">
-        <label for="password">Password</label>
-        <input type="text" name="password" th:value="${user.getPassword()}">
-      </div>
-      <div class="text-field">
-        <label for="description">Description</label>
-        <textarea type="text" name="description" th:text="${user.getDescription()}" cols="20" rows="10">
-        </textarea>
-      </div>
-      <div class="text-field">
-        <label for="imgAvatar">Your Img</label>
-        <div>
-          <img  th:src="${user.getPath()}?'/static/uploads/users/'+ ${user.getPath()} : '/static/img/DefaultUserImg.png'" width="100px" height="100px">
+<main class="profile-container">
+  <div class="profile">
+      <div >
+        <div class="text-field">
+          <div>
+            <img  th:src="${user.getPath()}?'/static/uploads/users/'+ ${user.getPath()} : '/static/img/DefaultUserImg.png'" width="100px" height="100px">
+          </div>
+          <h1 th:text="${user.getUsername()}"></h1>
         </div>
       </div>
-      <div>
-        <label for="img">Image</label>
-        <input type="file" name="img">
-      </div>
+      <h6 class="text-field" th:text="${user.getDescription()}">
 
-      <div style="text-align: center">
-        <input type="submit" value="Change">
-      </div>
-
-    </form>
+      </h6>
   </div>
 
 </main>

@@ -18,11 +18,12 @@ public class CommentService {
     }
 
 
-    public void AddComment(CommentViewModel commentViewModel, String UserName) {
+    public void AddComment(CommentViewModel commentViewModel, String UserName, Long userid) {
         Comment comment = new Comment();
         comment.setUsername(UserName);
         comment.setText(commentViewModel.getText());
         comment.setFlowerid(commentViewModel.getFlowerId());
+        comment.setUserid(userid);
         commentRepo.save(comment);
     }
 

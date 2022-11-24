@@ -36,7 +36,7 @@
             <!--/*@thymesVar id="FlowerList" type="java.lang.Iterable<ru.sinforge.mywebapplication.Entities.Flower>"*/-->
             <div class="goods">
                 <div>
-                    <img th:src="@{'/static/uploads/' + ${flower.getImgName()}}" width="100" height="100">
+                    <img th:src="@{'/static/uploads/' + ${flower.getImgname()}}" width="100" height="100">
                 </div>
                <div style="padding: 10px">
                    <p th:text="${flower.name}" name="name" th:href="@{/flower(id=${flower.id})}"></p>

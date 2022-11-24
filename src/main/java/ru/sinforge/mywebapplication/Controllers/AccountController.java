@@ -45,9 +45,15 @@ public class AccountController {
     }
 
     @PostMapping("/profile")
-    public String Profile(Long id, UserViewModel user, @RequestParam("img") MultipartFile img) {
-        userService.changeData(id, user, img);
+    public String Profile(Long id, UserViewModel user, @RequestParam("description") String description, @RequestParam("img") MultipartFile img) {
+        userService.changeData(id, user, description, img);
         return "redirect:/profile";
+    }
+
+    @GetMapping("/user")
+    public String GetUserProfile(@RequestParam(name="id", required = true) Long id, Model model) {
+        model.addAttribute("user", userService.GetUserById(id));
+        return "user_profile";
     }
 
 }

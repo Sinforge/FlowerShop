@@ -111,18 +111,22 @@
 
         <h4>All comments</h4>
         <div id="list-comments" >
-            <div class="author-comment" th:each="comment,iterStat : ${comments}">
-                <div class="inline-author">
-                    <img  th:src="${imgs[iterStat.index]}?'/static/uploads/users/'+ ${imgs[iterStat.index]} : '/static/img/DefaultUserImg.png'" width="100px" height="100px">
-                    <form sec:authorize="hasAnyAuthority('Moderator', 'Administrator')" th:id="'form-' + ${comment.getId()}" >
-                        <input th:value="${comment.getId()}" name="commentId"  hidden>
-                        <input th:value="${flower.getId()}" name="flowerId" hidden>
-                    </form>
-                    <button sec:authorize="hasAnyAuthority('Moderator', 'Administrator')" class="delete-button" th:name="${comment.getId()}">Delete </button>
+            <div class="author-comment" th:each="comment,iterStat : ${comments}" >
+                <form sec:authorize="hasAnyAuthority('Moderator', 'Administrator')" th:id="'form-' + ${comment.getId()}" >
+                    <input th:value="${comment.getId()}" name="commentId"  hidden>
+                    <input th:value="${flower.getId()}" name="flowerId" hidden>
+                </form>
+                <button sec:authorize="hasAnyAuthority('Moderator', 'Administrator')" class="delete-button" th:name="${comment.getId()}">Delete </button>
 
-                    <p th:text="${comment.getUsername}"></p><br>
-                </div>
-                <p th:text="${comment.getText}"></p>
+                <a th:href="@{/user(id=${comment.getUserid()})}">
+
+                    <div class="inline-author">
+                        <img  th:src="${imgs[iterStat.index]}?'/static/uploads/users/'+ ${imgs[iterStat.index]} : '/static/img/DefaultUserImg.png'" width="100px" height="100px">
+                        <p th:text="${comment.getUsername}"></p><br>
+                    </div>
+                    <p th:text="${comment.getText}"></p>
+                </a>
+
 
             </div>
         </div>
