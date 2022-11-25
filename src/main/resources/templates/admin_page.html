@@ -23,7 +23,8 @@
                     <input type="submit" value="Sign Out" class="c-button submit service"/>
                 </form>
             </li>
-            <li sec:authorize="hasAnyAuthority('Administrator', 'Moderator')" class="nav-bar-element"><a href="/create">Создать цветок</a></li>
+            <li sec:authorize="isAuthenticated()" class="nav-bar-element"><a href="/profile">Profile</a></li>
+             <li sec:authorize="hasAnyAuthority('Administrator', 'Moderator')" class="nav-bar-element"><a href="/create">Создать цветок</a></li>
             <li sec:authorize="hasAuthority('Administrator')" style="border-bottom: solid" class="nav-bar-element"><a href="/userlist">Список пользователей</a></li>
 
         </ul>
@@ -82,7 +83,6 @@
     var roleInputs = document.querySelectorAll(".form-group input");
     var windowBlock = document.getElementById("hidden-window");
     var userIdField = document.getElementById("UserIdInput");
-    console.log(userIdField);
     for (let i = 0; i < buttonEditRoles.length; i++) {
         buttonEditRoles[i].addEventListener("click",
             () => {

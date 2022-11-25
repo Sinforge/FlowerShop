@@ -28,5 +28,6 @@ public class MvcConfig  implements WebMvcConfigurer {
         registry.addResourceHandler("/js/**")
                 .addResourceLocations("file:ext-resources/")
                 .setCachePeriod(0);
+
     }
 }

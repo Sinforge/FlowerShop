@@ -28,7 +28,6 @@ class Flower extends React.Component {
 }
 class FlowerList extends React.Component {
     render() {
-        console.log(this.props.data)
         const flowerBlocks = this.props.data.map((flower)=> {
             return (
                 <Flower flowerInfo={flower} />
@@ -89,7 +88,6 @@ class App extends React.Component {
         fetch(url)
             .then(response => response.json())
             .then(result => {
-                console.log(result);
                 this.setState({flowers: result});
             })
             .catch(e => console.log(e))
@@ -97,7 +95,6 @@ class App extends React.Component {
     }
 
     ChangeValue = (event) => {
-        console.log(event.target.value)
         this.setState({value: event.target.value})
     }
     ChangeMin = (event) => {
@@ -107,11 +104,9 @@ class App extends React.Component {
         this.setState({max: event.target.value})
     }
     SortUp = (event) => {
-        console.log("Im sort up");
         this.setState({sortUpRating: !this.state.sortUpRating})
     }
     SortDown = (event) => {
-        console.log("Im sort down");
         this.setState({sortDownRating: !this.state.sortDownRating});
     }
 

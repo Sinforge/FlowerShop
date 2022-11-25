@@ -26,6 +26,7 @@
                             <input type="submit" value="Sign Out" class="c-button submit service"/>
                         </form>
                     </li>
+                    <li sec:authorize="isAuthenticated()" class="nav-bar-element"><a href="/profile">Profile</a></li>
                     <li sec:authorize="hasAnyAuthority('Administrator', 'Moderator')" class="nav-bar-element"><a href="/create">Создать цветок</a></li>
                     <li sec:authorize="hasAuthority('Administrator')" class="nav-bar-element"><a href="/userlist">Список пользователей</a></li>
 
